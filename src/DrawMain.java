@@ -1,5 +1,3 @@
-package javadraw;
-
 import java.awt.Graphics;
 
 class DrawMain extends TreeType {

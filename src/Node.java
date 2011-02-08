@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ddd7d202a57135ed184037e2170c9cb86774d50e
 import java.util.Vector;
 
 enum NODETYPE {
@@ -18,7 +21,7 @@ public class Node {
 		this.nodeType = nodeType;
 	}
 	
-	//Constructor with type and node name
+	//Constructor with type and node name.
 	public Node(NODETYPE nodeType, String name) {
 		this.nodeType = nodeType;
 		this.name = name;

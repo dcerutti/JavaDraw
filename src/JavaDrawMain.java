@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 
 
-=======
->>>>>>> ddd7d202a57135ed184037e2170c9cb86774d50e
 import java.awt.BorderLayout;
 import java.awt.Frame;
 
@@ -13,9 +10,6 @@ public class JavaDrawMain {
 	 */
 
 	public static void main(String[] args) {
-
-		Node head = BuildSampleTree(); // Builds Sample Tree
-		PrintBadTree(head, 0); //Prints Sample Tree
 
                 //Builds a Frame with a Close 'X' Option
                 Frame myframe = new Frame("Draw File");
@@ -29,38 +23,14 @@ public class JavaDrawMain {
                 //Make that shit visible
                 myframe.pack();
                 myframe.setVisible(true);
-
+                
+                Node head = drawArea.BuildSampleTree(); // Builds Sample Tree
+        		PrintBadTree(head, 0); //Prints Sample Tree
+                
                 while(true){
                     drawArea.repaint(); //Draw it
                 }
 
-	}
-
-	/*
-	 * 
-	 * This Functions Builds a BAD Sample Tree
-	 * 
-	 */
-	static Node BuildSampleTree() {
-
-		Node main = new Node(NODETYPE.FUNCTION, "Main");
-		Node head = main; // points to head node
-		Node funtion1 = new Node(NODETYPE.FUNCTION, "FUNCTION1");
-		Node funtion2 = new Node(NODETYPE.FUNCTION, "FUNCTION2");
-		Node object1 = new Node(NODETYPE.OBJECT, "Square");
-
-		main.children.add(funtion1);
-		main.children.add(funtion2);
-		main.children.add(object1);
-
-		Node object2 = new Node(NODETYPE.OBJECT, "Circle");
-		Node function3 = new Node(NODETYPE.FUNCTION, "Function3");
-		funtion1.children.add(object2);
-		funtion1.children.add(function3);
-		Node object3 = new Node(NODETYPE.OBJECT, "Triagle");
-		function3.children.add(object3);
-		
-		return head;
 	}
 
 	/*

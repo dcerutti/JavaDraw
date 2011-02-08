@@ -1,3 +1,5 @@
+package javadraw;
+
 import java.util.Vector;
 
 enum NODETYPE {

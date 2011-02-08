@@ -1,3 +1,8 @@
+package javadraw;
+
+import java.awt.BorderLayout;
+import java.awt.Frame;
+
 public class JavaDrawMain {
 
 	/**
@@ -8,6 +13,23 @@ public class JavaDrawMain {
 
 		Node head = BuildSampleTree(); // Builds Sample Tree
 		PrintBadTree(head, 0); //Prints Sample Tree
+
+                //Builds a Frame with a Close 'X' Option
+                Frame myframe = new Frame("Draw File");
+                myframe.setSize(800,600);
+                myframe.addWindowListener(new Closer());
+
+                //Makes a Canvas
+                DrawTree drawArea = new DrawTree();
+                myframe.add(drawArea, BorderLayout.CENTER);
+
+                //Make that shit visible
+                myframe.pack();
+                myframe.setVisible(true);
+
+                while(true){
+                    drawArea.repaint(); //Draw it
+                }
 
 	}
 

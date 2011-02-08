@@ -1,4 +1,4 @@
-package javadraw;
+
 
 import java.awt.Graphics;
 

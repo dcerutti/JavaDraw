@@ -16,7 +16,7 @@ public class Node {
 		this.nodeType = nodeType;
 	}
 	
-	//Constructor with type and node name
+	//Constructor with type and node name.
 	public Node(NODETYPE nodeType, String name) {
 		this.nodeType = nodeType;
 		this.name = name;

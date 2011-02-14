@@ -30,6 +30,9 @@ public class JavaDrawMain {
 			// Makes that frame visible
 			myframe.pack();
 			myframe.setVisible(true);
+			drawArea.BuildGnList();
+			PrintBadTree(BuildSampleTree(), 0); // Prints Sample Tr
+			
 
 			while (true) {
 				drawArea.repaint(); // Draw it
@@ -67,11 +70,17 @@ public class JavaDrawMain {
 		main.children.add(object1);
 
 		Node object2 = new Node(NODETYPE.OBJECT, "Circle");
+		Node object2a = new Node(NODETYPE.OBJECT, "Circle Link");
+		object2.children.add(object2a);
+		Node object2b = new Node(NODETYPE.OBJECT, "Circle Link 2");
+		//object2.children.add(object2b);
 		Node function3 = new Node(NODETYPE.FUNCTION, "Function3");
 		funtion1.children.add(object2);
 		funtion1.children.add(function3);
 		Node object3 = new Node(NODETYPE.OBJECT, "Triagle");
+		Node object3a = new Node(NODETYPE.OBJECT, "Triagle 2");
 		function3.children.add(object3);
+		//function3.children.add(object3a);
 
 		return head;
 	}

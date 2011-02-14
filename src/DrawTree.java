@@ -36,15 +36,67 @@ public class DrawTree extends Canvas {
 	 * Builds sample list
 	 */
 	public void BuildGnList() {
-		if (test.name == "Function") {
 
-			GraphicFunction e = new GraphicFunction();
-			gnList.add(e);
+		traverse(JavaDrawMain.BuildSampleTree(), 50, 50, 1);
+	}
+
+	public void traverse(Node node, int x, int y, int level) {
+
+		if (node.nodeType == NODETYPE.FUNCTION) {
+
+			GraphicFunction gF = new GraphicFunction();
+			gF.x = x;
+			gF.y = y;
+			gF.name = node.name;
+
+			gnList.add(gF);
+
+		} else {
+
+			GraphicObject gO = new GraphicObject();
+			gO.x = x;
+			gO.y = y;
+			gO.name = node.name;
+
+			gnList.add(gO);
+
 		}
+		int count = 1;
+		int newy = 0;
+		int newx = 0;
+		
+		GraphicLine gL = new GraphicLine();
+		gL.x1 = x;
+		gL.y1 = y + 25;
+		gL.x2 = x;
+		gL.y2 = gL.y1;
+		
+		for (Node child : node.children) {
 
+			newx = x + 50;
+			newy = y + (50 * level) * count;
+			gL.y2 = newy;
+			
+			GraphicLine gAcross = new GraphicLine();
+			gAcross.x1 = x;
+			gAcross.y1 = newy;
+			gAcross.x2 = newx - 25;
+			gAcross.y2 = newy;
+			gnList.add(gAcross);
+			
+			traverse(child, newx , newy , level++);		
+			
+			for (Node subchild : child.children) {
+				count  = count * level;
+			}
+			
+		}
+		gnList.add(gL);
+		
 	}
 
 	// paints all of our data
+	@Override
 	public void paint(Graphics g) {
 
 		for (GraphicNode gN : gnList) {

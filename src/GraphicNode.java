@@ -13,6 +13,10 @@ public abstract class GraphicNode {
 }
 
 class GraphicFunction extends GraphicNode {
+	
+	public int x,y;
+	String name;
+	public Color c = Color.blue;
 
 	public GraphicFunction() {
 	}
@@ -20,7 +24,47 @@ class GraphicFunction extends GraphicNode {
 	@Override
 	public void draw(Graphics g) {
 
-		g.drawOval(400, 50, 50, 50);
+		g.setColor(c);
+		g.drawString(name, x, y);
+		g.drawOval(x - 25, y - 25, 25 * 2, 25 * 2);
+
+	}
+
+}
+
+class GraphicObject extends GraphicNode {
+	
+	public int x,y;
+	String name;
+	public Color c = Color.red;
+
+	public GraphicObject() {
+	}
+
+	@Override
+	public void draw(Graphics g) {
+
+		g.setColor(c);
+		g.drawString(name, x, y);
+		g.drawOval(x - 25, y - 25, 25 * 2, 25 * 2);
+
+	}
+
+}
+
+class GraphicLine extends GraphicNode {
+	
+	public int x1,y1,x2,y2;
+	public Color c = Color.red;
+
+	public GraphicLine() {
+	}
+
+	@Override
+	public void draw(Graphics g) {
+
+		g.setColor(c);
+		g.drawLine(x1, y1 , x2, y2 );
 
 	}
 

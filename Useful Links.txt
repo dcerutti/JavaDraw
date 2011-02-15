@@ -1,0 +1,3 @@
+http://illegalargumentexception.blogspot.com/2009/03/java-using-jpda-to-write-debugger.html
+
+http://download.oracle.com/javase/6/docs/jdk/api/attach/spec/com/sun/tools/attach/VirtualMachine.html

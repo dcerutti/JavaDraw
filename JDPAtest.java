@@ -26,7 +26,7 @@ public class JDPAtest {
          * $ java Interesting &
          * The & makes it run in the background, and it spits out the PID
          */
-        VirtualMachine vm = VirtualMachine.attach("7176");
+        VirtualMachine vm = VirtualMachine.attach("7464");
 
         // get system properties in target VM
         java.util.Properties props = vm.getSystemProperties();

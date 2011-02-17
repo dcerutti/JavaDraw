@@ -1,3 +1,9 @@
 http://illegalargumentexception.blogspot.com/2009/03/java-using-jpda-to-write-debugger.html
 
 http://download.oracle.com/javase/6/docs/jdk/api/attach/spec/com/sun/tools/attach/VirtualMachine.html
+
+http://download.oracle.com/javase/6/docs/api/java/lang/ProcessBuilder.html
+
+Finding Process ID: http://blog.igorminar.com/2007/03/how-java-application-can-discover-its.html
+
+

@@ -1,6 +1,13 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class JavaDrawMain {
 
@@ -17,12 +24,12 @@ public class JavaDrawMain {
 			/*
 			 * Graphics Team Code Here
 			 */
-
+			
 			// Builds a Frame with a Close 'X' Option
 			Frame myframe = new Frame("Draw File");
 			myframe.setSize(800, 600);
 			myframe.addWindowListener(new FrameCloser());
-
+			
 			// Makes a Canvas
 			DrawTree drawArea = new DrawTree();
 			myframe.add(drawArea, BorderLayout.CENTER);
@@ -33,6 +40,14 @@ public class JavaDrawMain {
 			drawArea.BuildGnList();
 			PrintBadTree(BuildSampleTree(), 0); // Prints Sample Tr
 			
+			//Make menubar
+			MenuBar mb = new MenuBar();
+			myframe.setMenuBar(mb);
+			Menu m = new Menu("File");
+	    	mb.add(m);
+	    	MenuItem m2 = new MenuItem("Save Drawing as PNG");
+	    	m.add(m2);
+	    	m2.addActionListener(new PhotoSaver(myframe, drawArea));
 
 			while (true) {
 				drawArea.repaint(); // Draw it
@@ -47,9 +62,6 @@ public class JavaDrawMain {
 			Node head = BuildSampleTree();
 			PrintBadTree(head, 0); // Prints Sample Tree
 		}
-		
-		
-
 	}
 
 	/*
@@ -122,23 +134,18 @@ public class JavaDrawMain {
 	 * Button & Window Listeners
 	 */
 	static class FrameCloser extends WindowAdapter {
-
-		@Override
+		
 		public void windowClosing(WindowEvent e) // Closes window when called
 		{
-
 			System.out.println("Goodbye"); // Prints Goodbye to System
 			System.exit(0);
 		}
-
 	}
-
-      /*
+	
+	/*
 	 * This function adds and ActionListener on the MenuBar to allow the 
 	 * image on the canvas to be saved as a PNG file.
 	 */
-
-/*
 	static class PhotoSaver implements ActionListener {
 		Frame parent;
 		DrawTree drawArea;
@@ -172,7 +179,4 @@ public class JavaDrawMain {
 		}
 		
 	}
-
- */
-
 }

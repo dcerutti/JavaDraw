@@ -133,4 +133,42 @@ public class JavaDrawMain {
 
 	}
 
+      /*
+	 * This function adds and ActionListener on the MenuBar to allow the 
+	 * image on the canvas to be saved as a PNG file.
+	 */
+	static class PhotoSaver implements ActionListener {
+		Frame parent;
+		DrawTree drawArea;
+		
+		public PhotoSaver(Frame parent, DrawTree drawArea)
+		{
+			this.parent = parent;
+			this.drawArea = drawArea;
+		}
+		
+		public void actionPerformed(ActionEvent arg0) {
+			FileDialog f1 = new FileDialog(parent, "Save Image as PNG");
+			f1.setMode(FileDialog.SAVE);
+			f1.setVisible(true);
+			
+			String filename = f1.getFile();
+			String directory = f1.getDirectory();
+			
+			try {
+				BufferedImage bi = new BufferedImage(drawArea.getWidth(), drawArea.getHeight(), BufferedImage.TYPE_INT_RGB); //creates an image
+				Graphics g = bi.getGraphics(); //returns an instance of the Graphics class, allowing the program to draw to the image
+				g.setColor(Color.WHITE);
+				g.fillRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
+				g.setColor(Color.BLACK);
+				drawArea.paint(g); //paints the content of the canvas onto the image
+				File opfile = new File(directory + filename);
+				ImageIO.write(bi, "png", opfile); //writes the drawing to a PNG file
+			} catch (IOException ioe) {
+				System.out.println("Could Not Read File");
+			} 
+		}
+		
+	}
+
 }

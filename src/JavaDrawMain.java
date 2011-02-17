@@ -137,6 +137,8 @@ public class JavaDrawMain {
 	 * This function adds and ActionListener on the MenuBar to allow the 
 	 * image on the canvas to be saved as a PNG file.
 	 */
+
+/*
 	static class PhotoSaver implements ActionListener {
 		Frame parent;
 		DrawTree drawArea;
@@ -170,5 +172,7 @@ public class JavaDrawMain {
 		}
 		
 	}
+
+ */
 
 }

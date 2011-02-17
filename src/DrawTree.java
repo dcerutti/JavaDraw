@@ -25,22 +25,22 @@ public class DrawTree extends Canvas {
 
 	// Sample Tree
 	Node test = JavaDrawMain.BuildSampleTree();
-
-	// WE NEED TO BUILD THE VECTOR OF TREE TYPES SOMEWHAT
-	// LIKE THIS
-	// Vector holds all the trees - this might need to be a graph
-
 	Vector<GraphicNode> gnList = new Vector<GraphicNode>();
+	int globalLevel = 1;
 
 	/*
 	 * Builds sample list
 	 */
-	public void BuildGnList() {
-
-		traverse(JavaDrawMain.BuildSampleTree(), 50, 50, 1);
+	public void BuildGnList(int nodeWidth,int nodeHeight) {
+		
+		traverse(JavaDrawMain.BuildSampleTree(), 50, 50, nodeWidth, nodeHeight);
 	}
 
-	public void traverse(Node node, int x, int y, int level) {
+	/*
+	 *  Creates Graphics Nodes from node tree and sets proper x,y cords.
+	 * 
+	 */
+	public void traverse(Node node, int x, int y,int nodeWidth,int nodeHeight) {
 
 		if (node.nodeType == NODETYPE.FUNCTION) {
 
@@ -61,38 +61,39 @@ public class DrawTree extends Canvas {
 			gnList.add(gO);
 
 		}
-		int count = 1;
+
 		int newy = 0;
 		int newx = 0;
-		
-		GraphicLine gL = new GraphicLine();
-		gL.x1 = x;
-		gL.y1 = y + 25;
-		gL.x2 = x;
-		gL.y2 = gL.y1;
-		
+
+		// Line Down from Object
+		GraphicLine lineDown = new GraphicLine();
+		lineDown.x1 = x;
+		lineDown.y1 = y + (nodeHeight / 2);
+		lineDown.x2 = x;
+		lineDown.y2 = lineDown.y1;
+
 		for (Node child : node.children) {
 
-			newx = x + 50;
-			newy = y + (50 * level) * count;
-			gL.y2 = newy;
+			globalLevel++;
+
+			newx = x + nodeWidth;
+			newy = globalLevel * nodeHeight;
+			lineDown.y2 = newy;
 			
-			GraphicLine gAcross = new GraphicLine();
-			gAcross.x1 = x;
-			gAcross.y1 = newy;
-			gAcross.x2 = newx - 25;
-			gAcross.y2 = newy;
-			gnList.add(gAcross);
-			
-			traverse(child, newx , newy , level++);		
-			
-			for (Node subchild : child.children) {
-				count  = count * level;
-			}
-			
+			//Line from main branch to new node
+			GraphicLine lineAcross = new GraphicLine();
+			lineAcross.x1 = x;
+			lineAcross.y1 = newy;
+			lineAcross.x2 = newx - (nodeWidth/2);
+			lineAcross.y2 = newy;
+			gnList.add(lineAcross);
+
+			traverse(child, newx, newy, nodeWidth, nodeHeight);
+
 		}
-		gnList.add(gL);
-		
+
+		gnList.add(lineDown);
+
 	}
 
 	// paints all of our data

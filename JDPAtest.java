@@ -1,5 +1,3 @@
-package jdpatest;
-
 import com.sun.tools.attach.AgentInitializationException;
 import com.sun.tools.attach.AgentLoadException;
 import com.sun.tools.attach.AttachNotSupportedException;
@@ -7,6 +5,7 @@ import com.sun.tools.attach.VirtualMachine;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.util.*;
 
 /**
  * The problem with the loading the agent part was that the port was originally set to 5000.
@@ -28,10 +27,10 @@ public class JDPAtest {
          */
         String pid = pid(); //returns int (see function below)
         System.out.println("The process ID would be: " + pid);
-        VirtualMachine vm = VirtualMachine.attach(pid);
+        VirtualMachine vm = VirtualMachine.attach("1004");
 
         // get system properties in target VM
-        java.util.Properties props = vm.getSystemProperties();
+        Properties props = vm.getSystemProperties();
 
         // construct path to management agent
         String home = props.getProperty("java.home");
@@ -60,5 +59,4 @@ public class JDPAtest {
 
         return pid[0];
     }
-
 }

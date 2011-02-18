@@ -37,8 +37,7 @@ public class JavaDrawMain {
 			// Makes that frame visible
 			myframe.pack();
 			myframe.setVisible(true);
-			drawArea.BuildGnList();
-			PrintBadTree(BuildSampleTree(), 0); // Prints Sample Tr
+			drawArea.BuildGnList(50,50);
 			
 			//Make menubar
 			MenuBar mb = new MenuBar();

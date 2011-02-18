@@ -1,5 +1,7 @@
 import com.sun.jdi.Field;
+import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.ReferenceType;
+import com.sun.jdi.StackFrame;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.ClassPrepareEvent;
@@ -14,6 +16,7 @@ import com.sun.jdi.request.EventRequestManager;
 import com.sun.jdi.request.ModificationWatchpointRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.*;
 
 /**
  * The problem with the loading the agent part was that the port was originally set to 5000.
@@ -28,7 +31,7 @@ public class JDPAtest {
     public static final String CLASS_NAME = "Test";
     public static final String FIELD_NAME = "head";
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException {
 
 // 	attach to target VM
 //	port 2281 was the PID used in my TicTacToe Program and it worked.
@@ -49,12 +52,14 @@ public class JDPAtest {
  *	so that's a nonissue (comment out the vm.resume() line to see)
  */
         List<ThreadReference> at = vm.allThreads();
+        vm.suspend();
+        
         for (ThreadReference thread : at) {
             System.out.println("Thread: " + thread.name());
-        }
+            }
+        
         String desc = new String(vm.description());
         String name = new String(vm.name());
-        vm.suspend();
         System.out.println("Description of VM: " + desc);
         System.out.println("Name of VM: " + name);
         vm.resume();

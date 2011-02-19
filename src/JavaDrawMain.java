@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 public class JavaDrawMain {
 
@@ -47,11 +49,13 @@ public class JavaDrawMain {
 			MenuItem m2 = new MenuItem("Save Drawing as PNG");
 			m.add(m2);
 			m2.addActionListener(new PhotoSaver(myframe, drawArea));
+			
+			//Make ScrollPane
 
 			// while (true) {
 			// drawArea.repaint(); // Draw it
 			// }
-			drawArea.repaint();
+			drawArea.c.repaint();
 
 		} else if (answer == 1) {
 			/*

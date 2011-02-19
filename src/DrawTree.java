@@ -1,27 +1,37 @@
+import java.applet.Applet;
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.ScrollPane;
 import java.util.Vector;
 
 /*..
- * This class is meant to set the size of the canvas,
- * then print all of the data.
+ * This class now extends Applet. I created an internal class below called "OurCanvas"
+ * OurCanvas extends canvas which is where our drawing takes place. Since draw tree is an 
+ * Applet we can now add a scrollbar feature, you can't add a scroll pane to a canvas and
+ * for some reason adding it to a frame wasn't working.
  */
 
-public class DrawTree extends Canvas {
-
+public class DrawTree extends Applet {
+	Canvas c;
+	ScrollPane s;
+	
+	/*..
+	 * New constructor for drawtree makes a canvas and scrollpane
+	 */
 	public DrawTree() {
-		setSize(800, 600);
+		setLayout(new BorderLayout());
+		s = new ScrollPane();
+		s.setSize(100,100);
+		add("Center", s);
+		c = new OurCanvas();
+		c.setSize(800, 600);
+		s.add(c);
+		
+		
 	}
 
-	// Prevents flicker
-	@Override
-	public void update(Graphics g) {
-		Image on = createImage(getWidth(), getHeight());
-		print(on.getGraphics());
-		g.drawImage(on, 0, 0, this);
-
-	}
 
 	// Sample Tree
 	Node test = JavaDrawMain.BuildSampleTree();
@@ -160,6 +170,23 @@ public class DrawTree extends Canvas {
 
 	}
 
+	/*..
+	 * This class extends canvas and is where the drawing all takes place.
+	 * The code in main changed to drawArea.c.repaint();
+	 */
+	class OurCanvas extends Canvas {
+		
+	OurCanvas(){ super(); }
+	
+	// Prevents flicker
+	@Override
+	public void update(Graphics g) {
+		Image on = createImage(getWidth(), getHeight());
+		print(on.getGraphics());
+		g.drawImage(on, 0, 0, this);
+
+	}
+	
 	// paints all of our data
 	@Override
 	public void paint(Graphics g) {
@@ -170,4 +197,6 @@ public class DrawTree extends Canvas {
 
 	}
 
+}
+	
 }

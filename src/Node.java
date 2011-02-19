@@ -1,4 +1,3 @@
-
 import java.util.Vector;
 
 enum NODETYPE {
@@ -12,12 +11,17 @@ public class Node {
 	NODETYPE nodeType;
 	String name;
 
-	//Constructor with type.
+	// Graphic Team Use Only
+	boolean visited = false;
+	int graphicX;
+	int graphicY;
+
+	// Constructor with type.
 	public Node(NODETYPE nodeType) {
 		this.nodeType = nodeType;
 	}
-	
-	//Constructor with type and node name
+
+	// Constructor with type and node name
 	public Node(NODETYPE nodeType, String name) {
 		this.nodeType = nodeType;
 		this.name = name;

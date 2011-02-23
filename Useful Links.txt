@@ -6,4 +6,4 @@ http://download.oracle.com/javase/6/docs/api/java/lang/ProcessBuilder.html
 
 Finding Process ID: http://blog.igorminar.com/2007/03/how-java-application-can-discover-its.html
 
-java -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n Intersting
+java -Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n Interesting

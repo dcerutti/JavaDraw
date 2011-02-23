@@ -126,15 +126,21 @@ public class JDPAtest {
             //read in the file as a string
             Scanner inScanner = new Scanner(System.in);
             String input = inScanner.nextLine();
-            System.out.println("You selected: " + input);
+            System.out.println("You selected: " + input );
 
-            String command = "xterm";
+            String[] compile = {"xterm", "-e", "javac", input };
             /**
              * getRuntime().exec() is cross platform, but the command we're entering here
              * is NOT. It works in a linux (maybe OS X) environment. Should in theory work
-             * as long as you have bash, but there's no way this will work in Windows
+             * as long as you have bash, but there's no way this will work in Windows. We
+             * use xterm above because it's not dependent on UI (e.g., GNOME and KDE).
+             * xterm should be on any X-based system and is in $PATH so we don't
+             * need the absolute path. For some reason, if you put the whole thing in as
+             * one command (or two joined by &&) to compile AND run in debug, it doesn't
+             * work. Working on that...
              */
-            Process proc = Runtime.getRuntime().exec(command);
+            Runtime.getRuntime().exec(compile);
+            //Runtime.getRuntime().exec(command);
         }
         catch(Exception e){
             System.out.println("It seems this program crashed. Awesome...");

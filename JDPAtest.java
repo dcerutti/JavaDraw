@@ -128,9 +128,14 @@ public class JDPAtest {
             //read in the file as a string
             Scanner inScanner = new Scanner(System.in);
             String input = inScanner.nextLine();
+            //this takes the string and chops off the ".java" so we can run the class later
+            String className = input.substring(0, (input.length()-5));
+
             System.out.println("You selected: " + input );
+            System.out.println("Creating class:" + className);
 
             String[] compile = {"xterm", "-e", "javac", input };
+            String[] run = {"xterm", "-e", "java", "-Xdebug", "-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n", className };
             /**
              * getRuntime().exec() is cross platform, but the command we're entering here
              * is NOT. It works in a linux (maybe OS X) environment. Should in theory work
@@ -139,9 +144,17 @@ public class JDPAtest {
              * xterm should be on any X-based system and is in $PATH so we don't
              * need the absolute path. For some reason, if you put the whole thing in as
              * one command (or two joined by &&) to compile AND run in debug, it doesn't
-             * work. Working on that...
+             * work. Need two .exec() functions.
              */
             Runtime.getRuntime().exec(compile);
+            Runtime.getRuntime().exec(run);
+
+            /**
+             * We pause the program for 5 seconds (chosen arbitrarily) because if
+             * we jump right to the next portion too quickly the program isn't yet
+             * listening on the right port. Annoying to figure that one out...
+             */
+            Thread.sleep(5000);
         }
         catch(Exception e){
             System.out.println("It seems this program crashed. Awesome...");

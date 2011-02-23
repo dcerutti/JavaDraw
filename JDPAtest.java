@@ -18,6 +18,7 @@ import com.sun.jdi.request.EventRequestManager;
 import com.sun.jdi.request.ModificationWatchpointRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 /**
 * The problem with the loading the agent part was that the port was originally set to 5000.
@@ -34,6 +35,8 @@ public class JDPAtest {
 
     public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException {
 
+
+        getFile();
 
         VirtualMachine vm = new VMAcquirer().connect(8000);
 
@@ -61,7 +64,7 @@ public class JDPAtest {
             	System.out.println("Objects: " + object);
             }
         }
-        
+
        /* String desc = vm.description();
         String name = vm.name();
         System.out.println("Description of VM: " + desc);
@@ -107,5 +110,36 @@ public class JDPAtest {
         Field field = refType.fieldByName(FIELD_NAME);
         ModificationWatchpointRequest modificationWatchpointRequest = erm.createModificationWatchpointRequest(field);
         modificationWatchpointRequest.setEnabled(true);
+    }
+
+    public static void getFile() {
+
+        System.out.println("What Java file (a file ending in '.java') would you like to use?");
+
+        /**
+         * We ask the user what file they want to use, and run it with all the
+         * debug options enabled. This allows us to not have to manually run the
+         * program from the terminal every time. However, the Interesting.java
+         * (or whatever file) needs to be in the SAME directory as the source right now
+         */
+        try {
+            //read in the file as a string
+            Scanner inScanner = new Scanner(System.in);
+            String input = inScanner.nextLine();
+            System.out.println("You selected: " + input);
+
+            String command = "xterm";
+            /**
+             * getRuntime().exec() is cross platform, but the command we're entering here
+             * is NOT. It works in a linux (maybe OS X) environment. Should in theory work
+             * as long as you have bash, but there's no way this will work in Windows
+             */
+            Process proc = Runtime.getRuntime().exec(command);
+        }
+        catch(Exception e){
+            System.out.println("It seems this program crashed. Awesome...");
+            System.out.println(e.toString());
+        }
+
     }
 }

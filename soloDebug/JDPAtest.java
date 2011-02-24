@@ -1,4 +1,4 @@
-//package testconnect;
+package testconnect;
 
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.Field;
@@ -25,7 +25,7 @@ public class JDPAtest {
 
     public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException, AbsentInformationException {
 
-        //getFile();
+        getFile();
         getVM();
 
     }
@@ -64,7 +64,7 @@ public class JDPAtest {
             		continue;
             	List<Field> fields = frame.thisObject().referenceType().fields();
             	for (Field field : fields) {
-            		System.out.println("\t\tObject ---" + frame.thisObject().referenceType().name() + "---  " + field.name() 
+            		System.out.println("\t\tObject ---" + frame.thisObject().referenceType().name() + "---  " + field.name()
             				+ " = " + frame.thisObject().getValue(field));
             	}
             }
@@ -78,7 +78,7 @@ public class JDPAtest {
         System.out.println("...Resuming...");
         vm.resume();
     }
-        
+
 
     public static void getFile() {
 
@@ -100,7 +100,7 @@ public class JDPAtest {
             System.out.println("You selected: " + input );
             System.out.println("Creating class:" + className);
 
-            String[] compile = {"xterm", "-e", "javac", input };
+            String[] compile = {"xterm", "-e", "javac", "-g", input };
             String[] run = {"xterm", "-e", "java", "-Xdebug", "-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n", className };
             /**
              * getRuntime().exec() is cross platform, but the command we're entering here

@@ -1,3 +1,4 @@
+//package testconnect;
 
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.Field;
@@ -21,15 +22,13 @@ public class JDPAtest {
 */
     public static final String CLASS_NAME = "Test";
     public static final String FIELD_NAME = "head";
-    public static Node head;
 
-// 
-//    public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException, AbsentInformationException {
-//
-//        //getFile();
-//        getVM();
-//
-//    }
+    public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException, AbsentInformationException {
+
+        //getFile();
+        getVM();
+
+    }
 
     public static void getVM() throws InterruptedException, IncompatibleThreadStateException, IOException {
 
@@ -53,37 +52,23 @@ public class JDPAtest {
         vm.suspend();
         System.out.println("...Suspended...");
         int i = 0;
-        Node top = new Node(NODETYPE.FUNCTION,"Virtual Machine");
         for (ThreadReference thread : at) {
-//        	if (i < 3){
-//        		i++;
-//        		continue;
-//        	}
-        	Node temp = new Node(NODETYPE.FUNCTION , thread.name());
-        	top.children.add(temp);
-        	
-            System.out.println("Thread: " + thread.name());
+        	if (i < 3){
+        		i++;
+        		continue;
+        	}
+            System.out.println("\tThread: " + thread.name());
             List<StackFrame> sf = thread.frames();
             for (StackFrame frame : sf) {
-            	
-            	if(frame.thisObject() != null){
-            		Node temp2 = new Node(NODETYPE.OBJECT, frame.thisObject().referenceType().name());
-                	temp.children.add(temp2);
-                	
-            	}
-            	
-            	
             	if (frame.thisObject() == null)
             		continue;
             	List<Field> fields = frame.thisObject().referenceType().fields();
             	for (Field field : fields) {
-            		System.out.println("\tObject --- " + frame.thisObject().referenceType().name() + "---  " + field.name() 
+            		System.out.println("\t\tObject ---" + frame.thisObject().referenceType().name() + "---  " + field.name() 
             				+ " = " + frame.thisObject().getValue(field));
             	}
             }
         }
-        
-        head = top;
 
         /* String desc = vm.description();
         String name = vm.name();
@@ -92,10 +77,6 @@ public class JDPAtest {
          */
         System.out.println("...Resuming...");
         vm.resume();
-    }
-    
-    public static Node getHead(){
-    	return head;
     }
         
 

@@ -57,14 +57,14 @@ public class JDPAtest {
         		i++;
         		continue;
         	}
-            System.out.println("Thread: " + thread.name());
+            System.out.println("\tThread: " + thread.name());
             List<StackFrame> sf = thread.frames();
             for (StackFrame frame : sf) {
             	if (frame.thisObject() == null)
             		continue;
             	List<Field> fields = frame.thisObject().referenceType().fields();
             	for (Field field : fields) {
-            		System.out.println("\tObject --- " + frame.thisObject().referenceType().name() + "---  " + field.name() 
+            		System.out.println("\t\tObject ---" + frame.thisObject().referenceType().name() + "---  " + field.name() 
             				+ " = " + frame.thisObject().getValue(field));
             	}
             }

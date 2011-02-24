@@ -1,11 +1,11 @@
-package testconnect;
+//package testconnect;
 
 import com.sun.jdi.Field;
 import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.ReferenceType;
+import com.sun.jdi.StackFrame;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.ObjectReference;
 import com.sun.jdi.event.ClassPrepareEvent;
 import com.sun.jdi.event.Event;
 import com.sun.jdi.event.EventQueue;
@@ -35,7 +35,7 @@ public class JDPAtest {
 
     public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException {
 
-        getFile();
+        //getFile();
         getVM();
 
     }
@@ -63,9 +63,15 @@ public class JDPAtest {
 
         for (ThreadReference thread : at) {
             System.out.println("Thread: " + thread.name());
-            List<ObjectReference> or = thread.ownedMonitors();
-            for (ObjectReference object : or) {
-                System.out.println("Objects: " + object);
+            List<StackFrame> sf = thread.frames();
+            for (StackFrame frame : sf) {
+            	if (frame.thisObject() == null)
+            		continue;
+            	List<Field> fields = frame.thisObject().referenceType().fields();
+            	for (Field field : fields) {
+            		System.out.println("\tObject --- " + frame.thisObject().referenceType().name() + "---  " + field.name() 
+            				+ " = " + frame.thisObject().getValue(field));
+            	}
             }
         }
 
@@ -74,7 +80,7 @@ public class JDPAtest {
         System.out.println("Description of VM: " + desc);
         System.out.println("Name of VM: " + name);
          */
-        vm.resume();
+        //vm.resume();
         //process events
         EventQueue eventQueue = vm.eventQueue();
         while (true) {

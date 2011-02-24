@@ -1,4 +1,3 @@
-
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.Field;
 import com.sun.jdi.IncompatibleThreadStateException;
@@ -23,7 +22,7 @@ public class JDPAtest {
     public static final String FIELD_NAME = "head";
     public static Node head;
 
-// 
+
 //    public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException, AbsentInformationException {
 //
 //        //getFile();

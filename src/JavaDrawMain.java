@@ -174,11 +174,11 @@ public class JavaDrawMain {
 
 		@Override
 		public void actionPerformed(ActionEvent e)  {
-			
-			drawArea.reset();	
+				
 			
 			try {
 				JDPAtest.getVM();
+                                drawArea.reset();
 				drawArea.BuildGnList(50, 50, JDPAtest.getHead());
 				drawArea.c.repaint();
 				

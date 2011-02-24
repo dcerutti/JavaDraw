@@ -1,6 +1,7 @@
 import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.ScrollPane;
@@ -21,12 +22,13 @@ public class DrawTree extends Applet {
 	 * New constructor for drawtree makes a canvas and scrollpane
 	 */
 	public DrawTree() {
+		
 		setLayout(new BorderLayout());
 		s = new ScrollPane();
-		s.setSize(100,100);
+		s.setSize(801,601);
 		add("Center", s);
 		c = new OurCanvas();
-		c.setSize(800, 600);
+		c.setSize(8, 6);
 		s.add(c);
 		
 		
@@ -41,13 +43,42 @@ public class DrawTree extends Applet {
 	int globalLevel = 1;
 	int furthestNodeX;
 	int furthestLoopX = -1;
+	int furthestNodeY = -1;
+	
+	public void reset(){
+		globalLevel = 1;
+		furthestLoopX = -1;
+		furthestNodeY = -1;
+		
+		gnList.clear();
+		loopList.clear();
+		
+	}
+	
+	public void updateCanvasSize(){
+		
+		int x = 800;
+		int y = 600;
+		
+		if(furthestLoopX + 50 > x) {
+			x = furthestLoopX + 50;
+		}
+		
+		if(furthestNodeY + 50 > y){
+			y = furthestNodeY + 50;
+		}
+		
+		
+		c.setSize( x , y);
+	}
+	
 
 	/*
 	 * Builds sample list
 	 */
-	public void BuildGnList(int nodeWidth, int nodeHeight) {
+	public void BuildGnList(int nodeWidth, int nodeHeight, Node head) {
 
-		traverse(JavaDrawMain.BuildSampleTree(), 50, 50, nodeWidth, nodeHeight);
+		traverse(head, 50, 50, nodeWidth, nodeHeight);
 	}
 
 	/*
@@ -160,6 +191,7 @@ public class DrawTree extends Applet {
 				gnList.add(ar1);
 				gnList.add(ar2);
 
+				if( newy >= furthestNodeY) { furthestNodeY = newy; }
 				traverse(child, newx, newy, nodeWidth, nodeHeight);
 
 			}
@@ -167,7 +199,8 @@ public class DrawTree extends Applet {
 		}
 
 		gnList.add(lineDown);
-
+		updateCanvasSize();
+		
 	}
 
 	/*..
@@ -181,6 +214,8 @@ public class DrawTree extends Applet {
 	// Prevents flicker
 	@Override
 	public void update(Graphics g) {
+		
+		
 		Image on = createImage(getWidth(), getHeight());
 		print(on.getGraphics());
 		g.drawImage(on, 0, 0, this);

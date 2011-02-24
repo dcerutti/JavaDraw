@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import com.sun.jdi.IncompatibleThreadStateException;
+
 public class JavaDrawMain {
 
 	/**
@@ -39,7 +41,9 @@ public class JavaDrawMain {
 			// Makes that frame visible
 			myframe.pack();
 			myframe.setVisible(true);
-			drawArea.BuildGnList(50, 50);
+		
+			
+			drawArea.BuildGnList(50, 50, BuildSampleTree());
 
 			// Make menubar
 			MenuBar mb = new MenuBar();
@@ -47,7 +51,12 @@ public class JavaDrawMain {
 			Menu m = new Menu("File");
 			mb.add(m);
 			MenuItem m2 = new MenuItem("Save Drawing as PNG");
+			MenuItem m3 = new MenuItem("DebugProcess");
+			m3.addActionListener(new DebugProcess(drawArea));
+			m.add(m3);
 			m.add(m2);
+			
+			
 			m2.addActionListener(new PhotoSaver(myframe, drawArea));
 			
 			//Make ScrollPane
@@ -154,6 +163,39 @@ public class JavaDrawMain {
 			System.exit(0);
 		}
 	}
+	
+	static class DebugProcess implements ActionListener {
+		
+		DrawTree drawArea;
+		
+		DebugProcess(DrawTree drawArea){
+			this.drawArea = drawArea;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e)  {
+			
+			drawArea.reset();	
+			
+			try {
+				JDPAtest.getVM();
+				drawArea.BuildGnList(50, 50, JDPAtest.getHead());
+				drawArea.c.repaint();
+				
+			} catch (IncompatibleThreadStateException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+		}
+	}
+	
 
 	/*
 	 * This function adds and ActionListener on the MenuBar to allow the image

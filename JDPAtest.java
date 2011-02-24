@@ -1,21 +1,11 @@
 //package testconnect;
 
+import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.Field;
 import com.sun.jdi.IncompatibleThreadStateException;
-import com.sun.jdi.ReferenceType;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.VirtualMachine;
-import com.sun.jdi.event.ClassPrepareEvent;
-import com.sun.jdi.event.Event;
-import com.sun.jdi.event.EventQueue;
-import com.sun.jdi.event.EventSet;
-import com.sun.jdi.event.ModificationWatchpointEvent;
-import com.sun.jdi.event.VMDeathEvent;
-import com.sun.jdi.event.VMDisconnectEvent;
-import com.sun.jdi.request.ClassPrepareRequest;
-import com.sun.jdi.request.EventRequestManager;
-import com.sun.jdi.request.ModificationWatchpointRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -33,7 +23,7 @@ public class JDPAtest {
     public static final String CLASS_NAME = "Test";
     public static final String FIELD_NAME = "head";
 
-    public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException {
+    public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException, AbsentInformationException {
 
         //getFile();
         getVM();
@@ -60,8 +50,13 @@ public class JDPAtest {
          */
         List<ThreadReference> at = vm.allThreads();
         vm.suspend();
-
+        System.out.println("...Suspended...");
+        int i = 0;
         for (ThreadReference thread : at) {
+        	if (i < 3){
+        		i++;
+        		continue;
+        	}
             System.out.println("Thread: " + thread.name());
             List<StackFrame> sf = thread.frames();
             for (StackFrame frame : sf) {
@@ -80,45 +75,10 @@ public class JDPAtest {
         System.out.println("Description of VM: " + desc);
         System.out.println("Name of VM: " + name);
          */
-        //vm.resume();
-        //process events
-        EventQueue eventQueue = vm.eventQueue();
-        while (true) {
-            EventSet eventSet = eventQueue.remove();
-            for (Event event : eventSet) {
-                if (event instanceof VMDeathEvent || event instanceof VMDisconnectEvent) {
-                    // exit
-                    return;
-                } else if (event instanceof ClassPrepareEvent) {
-                    // watch field on loaded class
-                    ClassPrepareEvent classPrepEvent = (ClassPrepareEvent) event;
-                    ReferenceType refType = classPrepEvent.referenceType();
-                    addFieldWatch((VirtualMachine) vm, refType);
-                } else if (event instanceof ModificationWatchpointEvent) {
-                    // a Test.foo has changed
-                    ModificationWatchpointEvent modEvent = (ModificationWatchpointEvent) event;
-                    System.out.println("old=" + modEvent.valueCurrent());
-                    System.out.println("new=" + modEvent.valueToBe());
-                    System.out.println();
-                }
-            }
-            eventSet.resume();
-        }
+        System.out.println("...Resuming...");
+        vm.resume();
     }
-
-    private static void addClassWatch(VirtualMachine vm) {
-        EventRequestManager erm = vm.eventRequestManager();
-        ClassPrepareRequest classPrepareRequest = erm.createClassPrepareRequest();
-        classPrepareRequest.addClassFilter(CLASS_NAME);
-        classPrepareRequest.setEnabled(true);
-    }
-
-    private static void addFieldWatch(VirtualMachine vm,ReferenceType refType) {
-        EventRequestManager erm = vm.eventRequestManager();
-        Field field = refType.fieldByName(FIELD_NAME);
-        ModificationWatchpointRequest modificationWatchpointRequest = erm.createModificationWatchpointRequest(field);
-        modificationWatchpointRequest.setEnabled(true);
-    }
+        
 
     public static void getFile() {
 

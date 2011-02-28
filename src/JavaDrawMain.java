@@ -177,6 +177,11 @@ public class JavaDrawMain {
 				
 			
 			try {
+                                //Creates an input box for user to put in their class name
+                              //  JFrame frame = new JFrame("InputDialog");
+                                //String name = JOptionPane.showInputDialog(frame,
+                                   //     "What Java file (a file ending in '.java') would you like to use?");
+                                JDPAtest.getFile(name);
 				JDPAtest.getVM();
                                 drawArea.reset();
 				drawArea.BuildGnList(50, 50, JDPAtest.getHead());

@@ -137,50 +137,49 @@ System.out.println("Name of VM: " + name);
 
 	public static void getFile() {
 
-		System.out.println("What Java file (a file ending in '.java') would you like to use?");
+        System.out.println("What Java file (a file ending in '.java') would you like to use?");
 
-		/**
-		 * We ask the user what file they want to use, and run it with all the
-		 * debug options enabled. This allows us to not have to manually run the
-		 * program from the terminal every time. However, the Interesting.java
-		 * (or whatever file) needs to be in the SAME directory as the source right now
-		 */
-		try {
-			//read in the file as a string
-			Scanner inScanner = new Scanner(System.in);
-			String input = inScanner.nextLine();
-			//this takes the string and chops off the ".java" so we can run the class later
-			String className = input.substring(0, (input.length()-5));
+        /**
+* We ask the user what file they want to use, and run it with all the
+* debug options enabled. This allows us to not have to manually run the
+* program from the terminal every time. However, the Interesting.java
+* (or whatever file) needs to be in the SAME directory as the source right now
+*/
+        try {
+            //read in the file as a string
+            Scanner inScanner = new Scanner(System.in);
+            String input = inScanner.nextLine();
+            //this takes the string and chops off the ".java" so we can run the class later
+            String className = input.substring(0, (input.length()-5));
 
-			System.out.println("You selected: " + input );
-			System.out.println("Creating class:" + className);
+            System.out.println("You selected: " + input );
+            System.out.println("Creating class:" + className);
 
-			String[] compile = {"xterm", "-e", "javac", input };
-			String[] run = {"xterm", "-e", "java", "-Xdebug", "-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n", className };
-			/**
-			 * getRuntime().exec() is cross platform, but the command we're entering here
-			 * is NOT. It works in a linux (maybe OS X) environment. Should in theory work
-			 * as long as you have bash, but there's no way this will work in Windows. We
-			 * use xterm above because it's not dependent on UI (e.g., GNOME and KDE).
-			 * xterm should be on any X-based system and is in $PATH so we don't
-			 * need the absolute path. For some reason, if you put the whole thing in as
-			 * one command (or two joined by &&) to compile AND run in debug, it doesn't
-			 * work. Need two .exec() functions.
-			 */
-			Runtime.getRuntime().exec(compile);
-			Runtime.getRuntime().exec(run);
+            String[] compile = {"xterm", "-e", "javac", "-g", input };
+            String[] run = {"xterm", "-e", "java", "-Xdebug", "-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n", className };
+            /**
+* getRuntime().exec() is cross platform, but the command we're entering here
+* is NOT. It works in a linux (maybe OS X) environment. Should in theory work
+* as long as you have bash, but there's no way this will work in Windows. We
+* use xterm above because it's not dependent on UI (e.g., GNOME and KDE).
+* xterm should be on any X-based system and is in $PATH so we don't
+* need the absolute path. For some reason, if you put the whole thing in as
+* one command (or two joined by &&) to compile AND run in debug, it doesn't
+* work. Need two .exec() functions.
+*/
+            Runtime.getRuntime().exec(compile);
+            Runtime.getRuntime().exec(run);
 
-			/**
-			 * We pause the program for 5 seconds (chosen arbitrarily) because if
-			 * we jump right to the next portion too quickly the program isn't yet
-			 * listening on the right port. Annoying to figure that one out...
-			 */
-			Thread.sleep(5000);
-		}
-		catch(Exception e){
-			System.out.println("It seems this program crashed. Awesome...");
-			System.out.println(e.toString());
-		}
-	}
+            /**
+* We pause the program for 5 seconds (chosen arbitrarily) because if
+* we jump right to the next portion too quickly the program isn't yet
+* listening on the right port. Annoying to figure that one out...
+*/
+            Thread.sleep(5000);
+        }
+        catch(Exception e){
+            System.out.println("It seems this program crashed. Awesome...");
+            System.out.println(e.toString());
+        }
+    }
 }
-

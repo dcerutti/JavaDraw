@@ -27,7 +27,7 @@ public class JDPAtest {
 	 */
 	public static final String CLASS_NAME = "Test";
 	public static final String FIELD_NAME = "head";
-	// public static Node head;
+	public static Node head;
 
 /*
 	public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException, AbsentInformationException {
@@ -114,9 +114,9 @@ System.out.println("Name of VM: " + name);
 		vm.resume();
 	}
 
-	// public static Node getHead(){
-	//  return head;
-	// }
+	 public static Node getHead(){
+	  return head;
+	 }
 
 
 	public static void varTraverse(Value value, int tab) {

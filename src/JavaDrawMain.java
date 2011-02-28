@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.IncompatibleThreadStateException;
 
 public class JavaDrawMain {
@@ -71,8 +72,22 @@ public class JavaDrawMain {
 			 * Debug Team Code Here Use this as your main()
 			 */
 
-                      //JDPAtest.getFile(name);
-		JDPAtest.getVM();
+					try {
+						//JDPAtest.getFile("Intresting.java");
+						JDPAtest.getVM();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IncompatibleThreadStateException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (AbsentInformationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
 
 		} else {
@@ -181,13 +196,19 @@ public class JavaDrawMain {
 				
 			
 			try {
-                                //Creates an input box for user to put in their class name
-                              //  JFrame frame = new JFrame("InputDialog");
-                                //String name = JOptionPane.showInputDialog(frame,
-                                   //     "What Java file (a file ending in '.java') would you like to use?");
-                                //JDPAtest.getFile(name);
-				JDPAtest.getVM();
-                                drawArea.reset();
+                           
+				try {
+				     //Creates an input box for user to put in their class name
+                    //  JFrame frame = new JFrame("InputDialog");
+                      //String name = JOptionPane.showInputDialog(frame,
+                         //     "What Java file (a file ending in '.java') would you like to use?");
+                      //JDPAtest.getFile(name);
+					JDPAtest.getVM();
+				} catch (AbsentInformationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                drawArea.reset();
 				drawArea.BuildGnList(50, 50, JDPAtest.getHead());
 				drawArea.c.repaint();
 				

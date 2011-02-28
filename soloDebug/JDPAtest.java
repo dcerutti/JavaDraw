@@ -1,6 +1,3 @@
-
-package jdpatest;
-
 import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.Field;
 import com.sun.jdi.IncompatibleThreadStateException;
@@ -25,7 +22,6 @@ import java.util.Scanner;
  */
 public class JDPAtest {
 
-<<<<<<< HEAD:JDPAtest.java
 	/**
 	 * http://download.oracle.com/javase/6/docs/jdk/api/attach/spec/com/sun/tools/attach/VirtualMachine.html
 	 */
@@ -144,7 +140,6 @@ System.out.println("Name of VM: " + name);
 
 
 	public static void getFile(String n) {
-=======
     /**
 * http://download.oracle.com/javase/6/docs/jdk/api/attach/spec/com/sun/tools/attach/VirtualMachine.html
 */

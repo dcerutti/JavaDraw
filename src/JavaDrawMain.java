@@ -71,6 +71,10 @@ public class JavaDrawMain {
 			 * Debug Team Code Here Use this as your main()
 			 */
 
+                      //JDPAtest.getFile(name);
+		JDPAtest.getVM();
+
+
 		} else {
 			Node head = BuildSampleTree();
 			PrintBadTree(head, 0); // Prints Sample Tree
@@ -181,7 +185,7 @@ public class JavaDrawMain {
                               //  JFrame frame = new JFrame("InputDialog");
                                 //String name = JOptionPane.showInputDialog(frame,
                                    //     "What Java file (a file ending in '.java') would you like to use?");
-                                JDPAtest.getFile(name);
+                                //JDPAtest.getFile(name);
 				JDPAtest.getVM();
                                 drawArea.reset();
 				drawArea.BuildGnList(50, 50, JDPAtest.getHead());

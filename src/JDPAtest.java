@@ -29,13 +29,15 @@ public class JDPAtest {
 	public static final String FIELD_NAME = "head";
 	// public static Node head;
 
-
+/*
 	public static void main(String[] args) throws IOException, InterruptedException, IncompatibleThreadStateException, AbsentInformationException {
 
 		//getFile();
 		getVM();
 
 	}
+
+*/
 
 	public static void getVM() throws InterruptedException, IncompatibleThreadStateException, IOException, AbsentInformationException {
 

@@ -251,19 +251,15 @@ public class JavaDrawMain {
 			String directory = f1.getDirectory();
 
 			try {
-				BufferedImage bi = new BufferedImage(drawArea.getWidth(),
-						drawArea.getHeight(), BufferedImage.TYPE_INT_RGB); // creates
+				BufferedImage bi = new BufferedImage(drawArea.c.getWidth(),
+						drawArea.c.getHeight(), BufferedImage.TYPE_INT_RGB); // creates
 																			// an
 																			// image
 				Graphics g = bi.getGraphics(); // returns an instance of the
 												// Graphics class, allowing the
 												// program to draw to the image
-				g.setColor(Color.WHITE);
-				g.fillRect(0, 0, drawArea.getWidth(), drawArea.getHeight());
-				g.setColor(Color.BLACK);
-				drawArea.paint(g); // paints the content of the canvas onto the
-									// image
-				File opfile = new File(directory + filename);
+				drawArea.c.update(g);
+				File opfile = new File(directory + filename + ".png");
 				ImageIO.write(bi, "png", opfile); // writes the drawing to a PNG
 													// file
 			} catch (IOException ioe) {

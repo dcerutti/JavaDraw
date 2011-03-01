@@ -204,13 +204,15 @@ public class JavaDrawMain {
                          //     "What Java file (a file ending in '.java') would you like to use?");
                       //JDPAtest.getFile(name);
 					JDPAtest.getVM();
+			          drawArea.reset();
+						drawArea.BuildGnList(50, 50, JDPAtest.getHead());
+						drawArea.c.repaint();
+					
+					
 				} catch (AbsentInformationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-                drawArea.reset();
-				drawArea.BuildGnList(50, 50, JDPAtest.getHead());
-				drawArea.c.repaint();
 				
 			} catch (IncompatibleThreadStateException e1) {
 				// TODO Auto-generated catch block

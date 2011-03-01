@@ -1,5 +1,7 @@
 import java.util.Vector;
 
+import com.sun.jdi.Value;
+
 enum NODETYPE {
 	FUNCTION, OBJECT;
 }
@@ -9,7 +11,9 @@ public class Node {
 	// local variables
 	Vector<Node> children = new Vector<Node>();
 	NODETYPE nodeType;
-	String name;
+	String name = "";
+	String type = "";
+	String value = "";
 
 	// Graphic Team Use Only
 	boolean visited = false;

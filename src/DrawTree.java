@@ -104,18 +104,35 @@ public class DrawTree extends Applet {
 
 			}
 
-			gF.name = node.name;
-
+			
+			
+		
+			gF.name = node.type + "  " +  node.value;
+			
+			
 			gnList.add(gF);
+			
+			GraphicString gS = new GraphicString();
+			gS.string = node.name;
+			gS.x = gF.x - nodeWidth - 30;
+			gS.y = gF.y - 5;
+			gnList.add(gS);
+		
 
 		} else {
 
 			GraphicObject gO = new GraphicObject();
 			gO.x = x;
 			gO.y = y;
-			gO.name = node.name;
+			gO.name = node.type + "  " + node.value;
 
 			gnList.add(gO);
+			
+			GraphicString gS = new GraphicString();
+			gS.string = node.name;
+			gS.x = gO.x - nodeWidth - 30;
+			gS.y = gO.y - 5;
+			gnList.add(gS);
 
 		}
 
@@ -164,7 +181,7 @@ public class DrawTree extends Applet {
 
 				globalLevel++;
 
-				newx = x + nodeWidth;
+				newx = x + nodeWidth + 50;
 				newy = (globalLevel * nodeHeight) + (globalLevel * 5);
 				lineDown.y2 = newy;
 

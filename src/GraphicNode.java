@@ -93,5 +93,17 @@ class GraphicLoop extends GraphicNode {
 		x2 = furthestLoopX;
 		x3 = furthestLoopX;
 	}
+}
 
+class GraphicString extends GraphicNode {
+	
+	String string;
+	int x;
+	int y;
+	
+	@Override
+	public void draw(Graphics g) {
+		
+		g.drawString(string, x, y);
+	}
 }

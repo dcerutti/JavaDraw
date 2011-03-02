@@ -1,12 +1,7 @@
 
-import com.sun.jdi.AbsentInformationException;
-import com.sun.jdi.Field;
-import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.LocalVariable;
 import com.sun.jdi.ObjectReference;
-
 import com.sun.jdi.AbsentInformationException;
-import com.sun.jdi.ClassNotLoadedException;
 import com.sun.jdi.Field;
 import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.StackFrame;
@@ -15,7 +10,6 @@ import com.sun.jdi.Value;
 import com.sun.jdi.VirtualMachine;
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * The problem with the loading the agent part was that the port was originally
@@ -34,7 +28,6 @@ public class JDPAtest {
     public static Node head;
 
     public static void getVM() throws InterruptedException,
-            IncompatibleThreadStateException,
             AbsentInformationException {
 
         try {
@@ -136,6 +129,12 @@ public class JDPAtest {
             System.out.println("You tried to do something with a file or VM that doesn't exist. Fix that...");
             System.out.println("Stack Trace: ");
             ioe.getStackTrace();
+        }
+        catch (IncompatibleThreadStateException ite)
+        {
+            System.out.println("Thread incompatability problem. Java Debug Interface exception");
+            System.out.println("Stack Trace: ");
+            ite.getStackTrace();
         }
 
     }

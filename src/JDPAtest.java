@@ -27,9 +27,7 @@ public class JDPAtest {
     public static final String FIELD_NAME = "head";
     public static Node head;
 
-    public static void getVM() throws InterruptedException,
-            AbsentInformationException {
-
+    public static void getVM() {
         try {
             VirtualMachine vm = new VMAcquirer().connect(8000);
 

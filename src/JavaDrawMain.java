@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +31,7 @@ public class JavaDrawMain {
             Frame myframe = new Frame("Draw File");
             myframe.setSize(800, 600);
             myframe.addWindowListener(new FrameCloser());
+            myframe.addComponentListener(new FrameMovement());
 
             // Makes a Canvas
             DrawTree drawArea = new DrawTree();
@@ -191,6 +191,39 @@ public class JavaDrawMain {
         }
     }
 
+
+    	static class FrameMovement implements ComponentListener {
+
+		DrawTree drawArea = new DrawTree();
+		@Override
+		public void componentMoved(ComponentEvent move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void componentHidden(ComponentEvent move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void componentResized(ComponentEvent move) {
+			drawArea.c.repaint();
+			drawArea.s.repaint();
+			drawArea.updateCanvasSize();
+			
+		}
+
+		@Override
+		public void componentShown(ComponentEvent move) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	
+		
+	}
 
     /*
      * This function adds and ActionListener on the MenuBar to allow the image

@@ -56,10 +56,10 @@ public class JDPAtest {
             int i = 0;
             Node top = new Node(NODETYPE.FUNCTION, "Virtual Machine");
             for (ThreadReference thread : at) {
-                if (i < 3) {
+               if (i < 3) {
                     i++;
                     continue;
-                }
+               }
 
                 Node functionNode = new Node(NODETYPE.FUNCTION, thread.name());
                 top.children.add(functionNode);
@@ -137,7 +137,7 @@ public class JDPAtest {
              */
             System.out.println("...Resuming...");
             vm.resume();
-
+            vm.exit(0);
         }
         catch (IOException ioe) {
             System.out.println("You tried to do something with a file or VM that doesn't exist. Fix that...");

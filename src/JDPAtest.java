@@ -125,14 +125,15 @@ public class JDPAtest {
         }
         catch (IOException ioe) {
             System.out.println("You tried to do something with a file or VM that doesn't exist. Fix that...");
-            System.out.println("Stack Trace: ");
+            System.out.println("Message: ");
+            System.out.println(ioe.getMessage());
             ioe.getStackTrace();
         }
         catch (IncompatibleThreadStateException ite)
         {
             System.out.println("Thread incompatability problem. Java Debug Interface exception");
-            System.out.println("Stack Trace: ");
-            ite.getStackTrace();
+            System.out.println("Message: ");
+            System.out.println(ite.getMessage());
         }
 
     }
@@ -231,7 +232,8 @@ public class JDPAtest {
              * one out...
              */
             Thread.sleep(5000);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("It seems this program crashed. Awesome...");
             System.out.println(e.toString());
         }

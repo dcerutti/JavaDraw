@@ -30,7 +30,9 @@ public class DrawTree extends Applet {
 		c = new OurCanvas();
 		c.setSize(8, 6);
 		s.add(c);
-		
+		AdjustmentListener AL = new MyAdjustmentListener();
+		s.getVAdjustable().addAdjustmentListener(AL);
+		s.getHAdjustable().addAdjustmentListener(AL);
 		
 	}
 
@@ -267,6 +269,23 @@ public class DrawTree extends Applet {
 
 	}
 
+}
+
+class MyAdjustmentListener implements AdjustmentListener{
+
+		
+		
+		public void adjustmentValueChanged(AdjustmentEvent move) {
+			//Adjustable wheresitat = move.getAdjustable();
+			
+			if(move.getValueIsAdjusting()){
+				c.repaint();
+				s.repaint();
+			}
+			
+		}
+		
+		
 }
 	
 }

@@ -48,6 +48,7 @@ public class DrawTree extends Applet {
 	public void reset(){
 		globalLevel = 1;
 		furthestLoopX = -1;
+		furthestNodeX = -1;
 		furthestNodeY = -1;
 		
 		gnList.clear();
@@ -120,6 +121,19 @@ public class DrawTree extends Applet {
 		
 
 		} else {
+			
+			if (x >= furthestNodeX) {
+				furthestNodeX = x;
+
+				int newX = furthestNodeX + (nodeWidth / 2) + 150;
+				for (GraphicLoop loop : loopList) {
+					loop.update(newX);
+					furthestLoopX = newX;
+					newX += 10;
+				}
+
+			}
+			
 
 			GraphicObject gO = new GraphicObject();
 			gO.x = x;
@@ -218,6 +232,10 @@ public class DrawTree extends Applet {
 		gnList.add(lineDown);
 		updateCanvasSize();
 		
+	}
+	
+	public void loopFill(){
+		System.out.println("FURTHEEST NODE IS... " + furthestNodeX);
 	}
 
 	/*..

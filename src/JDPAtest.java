@@ -9,7 +9,9 @@ import com.sun.jdi.ThreadReference;
 import com.sun.jdi.Value;
 import com.sun.jdi.VirtualMachine;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * The problem with the loading the agent part was that the port was originally
@@ -26,10 +28,12 @@ public class JDPAtest {
     public static final String CLASS_NAME = "Test";
     public static final String FIELD_NAME = "head";
     public static Node head;
+    public static Hashtable idVisited;
 
     public static void getVM() {
         try {
             VirtualMachine vm = new VMAcquirer().connect(8000);
+            idVisited = new Hashtable();
 
             /*
              * Messing around with some of the VirtualMachine methods the List at is
@@ -93,8 +97,20 @@ public class JDPAtest {
 
                         functionNode.children.add(objectNode);
 
-                        varTraverse(value, objectNode, 1);
-                        System.out.println();
+                        String id = idExtract(value);
+                        
+                        
+                        if(id.contains("id")){
+                        
+                        	if(!idVisited.containsKey(id)){
+                        		idVisited.put(id, objectNode);
+                                varTraverse(value, objectNode, 1);
+                                System.out.println();
+                        	}
+                        	
+                        }
+                        	
+                     
                     }
 
                     if (frame.thisObject() == null) {
@@ -160,25 +176,39 @@ public class JDPAtest {
         if (value instanceof ObjectReference) {
             ObjectReference or = (ObjectReference) value;
             List<Field> fields = or.referenceType().fields();
+            
             for (Field field : fields) {
                 Value fieldValue = or.getValue(field);
 
-                System.out.println();
-
-                for (int i = 0; i < tab; i++) {
-                    System.out.print("\t");
+                String id = idExtract(fieldValue);
+                if(id.contains("id")){
+                	if(!idVisited.containsKey(id)){
+                		
+                        Node objectNode = new Node(NODETYPE.OBJECT);
+                        objectNode.type = field.typeName();
+                        objectNode.name = field.name();
+                        objectNode.value = idExtract(fieldValue);
+                        parent.children.add(objectNode);
+                		
+                		
+                		idVisited.put(id, objectNode);
+                		varTraverse(fieldValue, objectNode, tab + 1);
+                	}else{
+                		
+                		Node temp = (Node) idVisited.get(id);
+                		parent.children.add(temp);
+                		
+                	}
+                	
+                }else{
+                    Node objectNode = new Node(NODETYPE.OBJECT);
+                    objectNode.type = field.typeName();
+                    objectNode.name = field.name();
+                    objectNode.value = idExtract(fieldValue);
+                    parent.children.add(objectNode);
+                	varTraverse(fieldValue, objectNode, tab + 1);
                 }
-
-
-
-                System.out.print("Value: " + fieldValue + " -" + field.name() + " type- " + field.typeName());
-                Node objectNode = new Node(NODETYPE.OBJECT);
-                objectNode.type = field.typeName();
-                objectNode.name = field.name();
-                objectNode.value = idExtract(fieldValue);
-                parent.children.add(objectNode);
-
-                varTraverse(fieldValue, objectNode, tab + 1);
+                
 
 
             }

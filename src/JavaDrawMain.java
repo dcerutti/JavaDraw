@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 public class JavaDrawMain {
@@ -177,10 +179,10 @@ public class JavaDrawMain {
         public void actionPerformed(ActionEvent e) {
 
             //Creates an input box for user to put in their class name
-            //  JFrame frame = new JFrame("InputDialog");
-            //String name = JOptionPane.showInputDialog(frame,
-            //     "What Java file (a file ending in '.java') would you like to use?");
-            //JDPAtest.getFile(name);
+            JFrame frame = new JFrame("InputDialog");
+            String name = JOptionPane.showInputDialog(frame,
+                 "What Java file (a file ending in '.java') would you like to use?");
+            JDPAtest.getFile(name);
             JDPAtest.getVM();
             drawArea.reset();
             drawArea.BuildGnList(50, 50, JDPAtest.getHead());

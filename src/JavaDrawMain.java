@@ -188,7 +188,9 @@ public class JavaDrawMain {
             JDPAtest.getVM();
             drawArea.reset();
             drawArea.BuildGnList(50, 50, JDPAtest.getHead());
+	    drawArea.updateCanvasSize();
             drawArea.c.repaint();
+	    drawArea.validate();
 
         }
     }

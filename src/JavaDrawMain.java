@@ -214,7 +214,7 @@ public class JavaDrawMain {
 		@Override
 		public void componentResized(ComponentEvent move) {
 			drawArea.c.repaint();
-			drawArea.s.repaint();
+			drawArea.repaint();
 			drawArea.updateCanvasSize();
 			
 		}

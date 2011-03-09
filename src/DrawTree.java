@@ -10,31 +10,31 @@ import java.awt.event.AdjustmentListener;
 import java.util.Vector;
 
 /*..
- * This class now extends Applet. I created an internal class below called "OurCanvas"
- * OurCanvas extends canvas which is where our drawing takes place. Since draw tree is an 
- * Applet we can now add a scrollbar feature, you can't add a scroll pane to a canvas and
- * for some reason adding it to a frame wasn't working.
+ * This class extends ScrollPane. We then create an instance of an internal
+ * class called OurCanvas. We then add the Canvas to the Scrollpane.
+ * This gives us the scroll functionality.
  */
 
-public class DrawTree extends Applet {
+public class DrawTree extends ScrollPane {
 	Canvas c;
-	ScrollPane s;
 	
 	/*..
 	 * New constructor for drawtree makes a canvas and scrollpane
 	 */
 	public DrawTree() {
 		
-		setLayout(new BorderLayout());
-		s = new ScrollPane();
-		s.setSize(801,601);
-		add("Center", s);
+		setSize(801,601);
 		c = new OurCanvas();
 		c.setSize(8, 6);
-		s.add(c);
+		add(c);
 		AdjustmentListener AL = new MyAdjustmentListener();
-		s.getVAdjustable().addAdjustmentListener(AL);
-		s.getHAdjustable().addAdjustmentListener(AL);
+		/*..
+		 * The Adjustment listeners referenced here are used
+		 * so that everytime the scrollbar moves the canvas
+		 * is repainted.
+		 */
+		getVAdjustable().addAdjustmentListener(AL);
+		getHAdjustable().addAdjustmentListener(AL);
 		
 	}
 
@@ -75,6 +75,8 @@ public class DrawTree extends Applet {
 		
 		
 		c.setSize( x , y);
+		c.repaint();
+		repaint();
 	}
 	
 
@@ -275,14 +277,14 @@ public class DrawTree extends Applet {
 
 class MyAdjustmentListener implements AdjustmentListener{
 
-		
+		//Everytime a scrollbar is moved repaint the canvas.
 		
 		public void adjustmentValueChanged(AdjustmentEvent move) {
-			//Adjustable wheresitat = move.getAdjustable();
 			
 			if(move.getValueIsAdjusting()){
 				c.repaint();
-				s.repaint();
+				repaint();
+				updateCanvasSize();
 			}
 			
 		}

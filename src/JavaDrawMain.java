@@ -158,7 +158,7 @@ public class JavaDrawMain {
     }
 
     /*
-     * Button & Window Listeners
+     * Need this class here so the Frame() can be closed
      */
     static class FrameCloser extends WindowAdapter {
 
@@ -190,12 +190,13 @@ public class JavaDrawMain {
             drawArea.BuildGnList(50, 50, JDPAtest.getHead());
 	    drawArea.updateCanvasSize();
             drawArea.c.repaint();
-	    drawArea.validate();
+	    drawArea.validate();	//This is the GOD line fixes everything
 
         }
     }
 
-
+    	//Class is here so that canvas size can be update when user
+    	//Changes the window size
     	static class FrameMovement implements ComponentListener {
 
 		DrawTree drawArea = new DrawTree();
@@ -210,7 +211,8 @@ public class JavaDrawMain {
 			// TODO Auto-generated method stub
 			
 		}
-
+		
+		//When the window is resized repaint and update everything
 		@Override
 		public void componentResized(ComponentEvent move) {
 			drawArea.c.repaint();

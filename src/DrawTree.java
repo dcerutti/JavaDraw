@@ -49,6 +49,10 @@ public class DrawTree extends ScrollPane {
 	int furthestLoopX = -1;
 	int furthestNodeY = -1;
 	
+	/*..
+	 * This function resets everything used
+	 * on re-initializations 
+	 */
 	public void reset(){
 		globalLevel = 1;
 		furthestLoopX = -1;
@@ -60,6 +64,11 @@ public class DrawTree extends ScrollPane {
 		
 	}
 	
+	/*..
+	 * This function is important because as the tree grows
+	 * larger in its x and y directions we update the size
+	 * of the canvas to fit everything
+	 */
 	public void updateCanvasSize(){
 		
 		int x = 800;

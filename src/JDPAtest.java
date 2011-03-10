@@ -8,11 +8,10 @@ import com.sun.jdi.StackFrame;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.Value;
 import com.sun.jdi.VirtualMachine;
+import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Vector;
-
 /**
  * The problem with the loading the agent part was that the port was originally
  * set to 5000. However, we don't know if that is the correct port so taking it
@@ -57,10 +56,10 @@ public class JDPAtest {
             Node top = new Node(NODETYPE.FUNCTION);
             top.type = "       VM";
             for (ThreadReference thread : at) {
-               if (i < 3) {
+                if (i < 3) {
                     i++;
                     continue;
-               }
+                }
 
                 Node functionNode = new Node(NODETYPE.FUNCTION, thread.name());
                 top.children.add(functionNode);
@@ -71,8 +70,8 @@ public class JDPAtest {
                 List<StackFrame> sf = thread.frames();
                 for (StackFrame frame : sf) {
 
-                	
-                	
+
+
                     if (frame.thisObject() != null) {
                         // Node temp2 = new Node(NODETYPE.OBJECT,
                         // frame.thisObject().referenceType().name());
@@ -82,11 +81,12 @@ public class JDPAtest {
 
                     try {
                         lv = frame.visibleVariables();
-                    } catch (AbsentInformationException aie) {
+                    }
+                    catch (AbsentInformationException aie) {
                         System.err.println("No locals in: " + frame);
                         continue;
                     }
-                    
+
                     Node sF = new Node(NODETYPE.FUNCTION);
                     sF.name = "Frame";
                     sF.type = frameExtract(frame.toString());
@@ -107,19 +107,19 @@ public class JDPAtest {
                         sF.children.add(objectNode);
 
                         String id = idExtract(value);
-                        
-                        
-                        if(id.contains("id")){
-                        
-                        	if(!idVisited.containsKey(id)){
-                        		idVisited.put(id, objectNode);
+
+
+                        if (id.contains("id")) {
+
+                            if (!idVisited.containsKey(id)) {
+                                idVisited.put(id, objectNode);
                                 varTraverse(value, objectNode, 1);
                                 System.out.println();
-                        	}
-                        	
+                            }
+
                         }
-                        	
-                     
+
+
                     }
 
                     if (frame.thisObject() == null) {
@@ -153,9 +153,8 @@ public class JDPAtest {
             System.out.println("Message: ");
             System.out.println(ioe.getMessage());
             ioe.getStackTrace();
-        }
-        catch (IncompatibleThreadStateException ite)
-        {
+        } 
+        catch (IncompatibleThreadStateException ite) {
             System.out.println("Thread incompatability problem. Java Debug Interface exception");
             System.out.println("Message: ");
             System.out.println(ite.getMessage());
@@ -174,83 +173,88 @@ public class JDPAtest {
         int indexID = value.indexOf("(id=");
         if (indexID == -1) {
             return value;
-        } else {
+        }
+        else {
             id = value.substring(indexID, value.length());
         }
 
         return id;
     }
-    
-    static String frameExtract(String frame){
-    	int index = frame.indexOf(" in thread");
-    	frame = frame.substring(0, index);
-    	return frame;
+
+    static String frameExtract(String frame) {
+        int index = frame.indexOf(" in thread");
+        frame = frame.substring(0, index);
+        return frame;
     }
 
     public static void varTraverse(Value value, Node parent, int tab) {
         if (value instanceof ObjectReference) {
             ObjectReference or = (ObjectReference) value;
             List<Field> fields = or.referenceType().fields();
-            
+
             for (Field field : fields) {
                 Value fieldValue = or.getValue(field);
 
                 String id = idExtract(fieldValue);
-                if(id.contains("id")){
-                	if(!idVisited.containsKey(id)){
-                		
+                if (id.contains("id")) {
+                    if (!idVisited.containsKey(id)) {
+
                         Node objectNode = new Node(NODETYPE.OBJECT);
                         objectNode.type = field.typeName();
                         objectNode.name = field.name();
                         objectNode.value = idExtract(fieldValue);
                         parent.children.add(objectNode);
-                		
-                		
-                		idVisited.put(id, objectNode);
-                		varTraverse(fieldValue, objectNode, tab + 1);
-                	}else{
-                		
-                		Node temp = (Node) idVisited.get(id);
-                		temp.nameTwo = field.name();
-                		parent.children.add(temp);
-                		
-                	}
-                	
-                }else{
+
+
+                        idVisited.put(id, objectNode);
+                        varTraverse(fieldValue, objectNode, tab + 1);
+                    }
+                    else {
+
+                        Node temp = (Node) idVisited.get(id);
+                        temp.nameTwo = field.name();
+                        parent.children.add(temp);
+
+                    }
+
+                } 
+                else {
                     Node objectNode = new Node(NODETYPE.OBJECT);
                     objectNode.type = field.typeName();
                     objectNode.name = field.name();
                     objectNode.value = idExtract(fieldValue);
                     parent.children.add(objectNode);
-                	varTraverse(fieldValue, objectNode, tab + 1);
+                    varTraverse(fieldValue, objectNode, tab + 1);
                 }
-                
+
 
 
             }
         }
     }
 
+    /**
+     * We ask the user what file they want to use, and run it with all the
+     * debug options enabled. This allows us to not have to manually run the
+     * program from the terminal every time. However, the Interesting.java
+     * (or whatever file) needs to be in the SAME directory as the source
+     * right now
+     */
     public static void getFile(String name, String directory) {
 
-        /**
-         * We ask the user what file they want to use, and run it with all the
-         * debug options enabled. This allows us to not have to manually run the
-         * program from the terminal every time. However, the Interesting.java
-         * (or whatever file) needs to be in the SAME directory as the source
-         * right now
-         */
+        //copyFile(name, directory);
+
+        // this takes the string and chops off the ".java" so we can run the
+        // class later
+        String className = name.substring(0, (name.length() - 5));
+
+        System.out.println("You selected: " + name);
+        System.out.println("Creating class:" + className);
+
+        
+        System.setProperty("user.dir", "/home/cory/Desktop");
+
         try {
-
-            // this takes the string and chops off the ".java" so we can run the
-            // class later
-            String className = name.substring(0, (name.length() - 5));
-
-            System.out.println("You selected: " + name);
-            System.out.println("Creating class:" + className);
-
-            String origDir = System.getProperty("user.dir");
-            System.setProperty("user.dir", "/home/cory/Desktop");
 
             String[] compile = {"xterm",
                 "-e",
@@ -264,12 +268,13 @@ public class JDPAtest {
                 "-Xdebug",
                 "-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n",
                 className};
+
             /**
              * getRuntime().exec() is cross platform, but the command we're
              * entering here is NOT. It works in a linux (maybe OS X)
              * environment. Should in theory work as long as you have bash, but
              * there's no way this will work in Windows. We use xterm above
-             * because it's not dependent on UI (e.g., GNOME and KDE). xterm
+             * because it's not dependent on UI (e.g., GNOME, KDE, XFCE, etc). xterm
              * should be on any X-based system and is in $PATH so we don't need
              * the absolute path. For some reason, if you put the whole thing in
              * as one command (or two joined by &&) to compile AND run in debug,
@@ -279,12 +284,12 @@ public class JDPAtest {
             Runtime.getRuntime().exec(run);
 
             /**
-             * We pause the program for 3 seconds (chosen arbitrarily) because
+             * We pause the program for 5 seconds (chosen arbitrarily) because
              * if we jump right to the next portion too quickly the program
              * isn't yet listening on the right port. Annoying to figure that
              * one out...
              */
-            Thread.sleep(3000);
+            Thread.sleep(5000);
         }
         catch (Exception e) {
             System.out.println("It seems this program crashed in getFile(). Awesome...");
@@ -292,11 +297,62 @@ public class JDPAtest {
         }
     }
 
-    public void moveFile() {
+    /**
+     * This as admittedly a little hackey, but we can't actually use xterm to
+     * change the working directory of the jvm. We can't change it at all! So
+     * the least obnoxious way to do it seems to be to just make a copy of the
+     * file in our cwd, and delete it when we're done. moveFile() copies the
+     * file over
+     */
+    public static void copyFile(String name, String directory) {
+        
+        //returns the cwd of the jvm into a string. user.dir tells what property
+        String destinationDir = System.getProperty("user.dir");        
+        String fullPath = directory + name;
+
+
+        //if the user happens to have a space in the path name, we need to
+        //tweak the path to work properly in xterm. i.e., add a "\" before
+        //every space so xterm doesn't think it's an argument
+        if (fullPath.contains(" "));
+        {
+            //find the index of the space, add a backslask BEFORE it
+            //Yes, it's apparently necessary to use 4 backslashes to place 1
+            fullPath = fullPath.replaceAll("\\s", "\\\\ ");
+        }
+
+        //same fix for Destination directory
+        if (destinationDir.contains(" "));
+        {
+            //find the index of the space, add a backslask BEFORE it
+            destinationDir = destinationDir.replaceAll("\\s", "\\\\ ");
+        }
+        
+        System.out.println("copyFile() origin path: " + fullPath);
+        System.out.println("copyFile() destination path: " + destinationDir);
+
+        String[] copy = {"xterm",
+                "-e",
+                "cp",
+                fullPath,
+                destinationDir};
+        
+        try
+        {
+            Runtime.getRuntime().exec(copy);
+        }
+        catch (IOException ex)
+        {
+            System.out.println("Error in JDPAtest.copyFile(). xterm didn't work properly");
+        }
 
     }
 
-    public void removeFile() {
-        
+    /**
+     * Remove the file from cwd and all associated .class files after we're
+     * done. It's just polite to remove them when we're done, isn't it?
+     */
+    public static void removeFile() {
+
     }
 }

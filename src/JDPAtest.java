@@ -248,7 +248,14 @@ public class JDPAtest {
             System.out.println("You selected: " + n);
             System.out.println("Creating class:" + className);
 
-            String[] compile = {"xterm", "-e", "javac", "-g", n};
+            String origDir = System.getProperty("user.dir");
+            System.setProperty("user.dir", "/home/cory/Desktop");
+
+            String[] compile = {"xterm",
+                "-e",
+                "javac",
+                "-g",
+                n};
             String[] run = {
                 "xterm",
                 "-e",

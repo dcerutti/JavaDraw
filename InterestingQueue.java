@@ -2,9 +2,9 @@ import java.io.IOException;
 
 public class InterestingQueue {
         InterestingQueue next = null;
-        Integer data;
+        int data;
 
-        public InterestingQueue(Integer data)
+        public InterestingQueue(int data)
         {
                 this.data = data;
         }

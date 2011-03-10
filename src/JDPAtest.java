@@ -290,4 +290,12 @@ public class JDPAtest {
             System.out.println(e.toString());
         }
     }
+
+    public void moveFile() {
+
+    }
+
+    public void removeFile() {
+        
+    }
 }

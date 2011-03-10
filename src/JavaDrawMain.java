@@ -75,6 +75,7 @@ public class JavaDrawMain {
         else {
             Node head = BuildSampleTree();
             PrintBadTree(head, 0); // Prints Sample Tree
+            System.out.println("Clicked Cancel!");
         }
     }
 
@@ -180,6 +181,9 @@ public class JavaDrawMain {
             JFrame frame = new JFrame("InputDialog");
             String name = JOptionPane.showInputDialog(frame,
                  "What Java file (a file ending in '.java') would you like to use?");
+//            JFileChooser fileChooser = new JFileChooser();
+//            fileChooser.setDialogTitle("Please Select a .java file you would like to use");
+//            fileChooser.showDialog(drawArea, "OK");
             JDPAtest.getFile(name);
             JDPAtest.getVM();
             drawArea.reset();

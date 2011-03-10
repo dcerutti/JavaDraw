@@ -271,15 +271,15 @@ public class JDPAtest {
             Runtime.getRuntime().exec(run);
 
             /**
-             * We pause the program for 5 seconds (chosen arbitrarily) because
+             * We pause the program for 3 seconds (chosen arbitrarily) because
              * if we jump right to the next portion too quickly the program
              * isn't yet listening on the right port. Annoying to figure that
              * one out...
              */
-            Thread.sleep(5000);
+            Thread.sleep(3000);
         }
         catch (Exception e) {
-            System.out.println("It seems this program crashed. Awesome...");
+            System.out.println("It seems this program crashed in getFile(). Awesome...");
             System.out.println(e.toString());
         }
     }

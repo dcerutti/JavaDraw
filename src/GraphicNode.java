@@ -16,7 +16,7 @@ class GraphicFunction extends GraphicNode {
 	public int x, y;
 	String name = "";
 	public Color c = Color.blue;
-	int nodeWidth = 40;
+	int nodeWidth = 50;
 	int nodeHeight = 30;
 	
 	
@@ -29,7 +29,10 @@ class GraphicFunction extends GraphicNode {
 	public void draw(Graphics g) {
 
 		g.setColor(c);
-		g.drawString(name, x - 15 , y );
+		if(name.length() >= 13){
+			name = name.substring(0, 11);
+		}
+		g.drawString(name, x - 30 , y );
 		g.drawOval(x - nodeWidth, y - nodeHeight, nodeWidth * 2, nodeHeight * 2);
 
 	}
@@ -41,7 +44,7 @@ class GraphicObject extends GraphicNode {
 	public int x, y;
 	String name = "";
 	public Color c = Color.red;
-	int nodeWidth = 40;
+	int nodeWidth = 50;
 	int nodeHeight = 30;
 
 	public GraphicObject() {
@@ -51,7 +54,10 @@ class GraphicObject extends GraphicNode {
 	public void draw(Graphics g) {
 
 		g.setColor(c);
-		g.drawString(name, x - 15 , y );
+		if(name.length() >= 14){
+			name = name.substring(0, 11);
+		}
+		g.drawString(name, x - 40 , y );
 		g.drawOval(x - nodeWidth, y - nodeHeight, nodeWidth * 2, nodeHeight * 2);
 
 	}

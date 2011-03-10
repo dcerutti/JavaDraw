@@ -55,7 +55,7 @@ public class JDPAtest {
             System.out.println("...Suspended...");
             int i = 0;
             Node top = new Node(NODETYPE.FUNCTION);
-            top.type = "VM";
+            top.type = "       VM";
             for (ThreadReference thread : at) {
                if (i < 3) {
                     i++;
@@ -65,7 +65,7 @@ public class JDPAtest {
                 Node functionNode = new Node(NODETYPE.FUNCTION, thread.name());
                 top.children.add(functionNode);
                 functionNode.type = thread.name();
-                functionNode.name = "CallStack";
+                functionNode.name = "Thread";
 
                 System.out.println("Thread: " + thread.name());
                 List<StackFrame> sf = thread.frames();
@@ -88,6 +88,7 @@ public class JDPAtest {
                     }
                     
                     Node sF = new Node(NODETYPE.FUNCTION);
+                    sF.name = "Frame";
                     sF.type = frameExtract(frame.toString());
                     sF.setPurple = true;
                     functionNode.children.add(sF);

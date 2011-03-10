@@ -21,10 +21,6 @@ public class JavaDrawMain {
      */
     public static void main(String[] args) {
 
-        TeamManager tManager = new TeamManager();
-        int answer = tManager.execute();
-
-        if (answer == 0) {
             /*
              * Graphics Team Code Here
              */
@@ -63,20 +59,7 @@ public class JavaDrawMain {
             drawArea.init();
             drawArea.c.repaint();
 
-        } else if (answer == 1) {
-            /*
-             * Debug Team Code Here Use this as your main()
-             */
-            JDPAtest.getFile("Interesting.java");
-            JDPAtest.getVM();
-
-
-        }
-        else {
-            Node head = BuildSampleTree();
-            PrintBadTree(head, 0); // Prints Sample Tree
-            System.out.println("Clicked Cancel!");
-        }
+         
     }
 
     /*
@@ -176,22 +159,43 @@ public class JavaDrawMain {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+        	
+        	int ans = JOptionPane.showConfirmDialog(drawArea, "Auto Run Target Program? (Linux Only)");
+        	
+        	if(ans == 0){
+        		
+        		JFrame frame = new JFrame("InputDialog");
+                String name = JOptionPane.showInputDialog(frame,
+                     "What Java file (a file ending in '.java') would you like to use?");
+        		
+        	     JDPAtest.getFile(name);
+                JDPAtest.getVM();
+                drawArea.reset();
+                drawArea.BuildGnList(50, 50, JDPAtest.getHead());
+    	    drawArea.updateCanvasSize();
+                drawArea.c.repaint();
+    	    drawArea.validate();	//This is the GOD line fixes everything
+        		
+        	}else if(ans == 1){
+        		
+        		JOptionPane.showMessageDialog(drawArea,"Hit OK after target program is running.");
+        		  JDPAtest.getVM();
+                  drawArea.reset();
+                  drawArea.BuildGnList(50, 50, JDPAtest.getHead());
+      	    drawArea.updateCanvasSize();
+                  drawArea.c.repaint();
+      	    drawArea.validate();	//This is the GOD line fixes everything
+        		
+        	}else{
+        		
+        	}
+        	
 
-            //Creates an input box for user to put in their class name
-            JFrame frame = new JFrame("InputDialog");
-            String name = JOptionPane.showInputDialog(frame,
-                 "What Java file (a file ending in '.java') would you like to use?");
 //            JFileChooser fileChooser = new JFileChooser();
 //            fileChooser.setDialogTitle("Please Select a .java file you would like to use");
 //            fileChooser.showDialog(drawArea, "OK");
-            JDPAtest.getFile(name);
-            JDPAtest.getVM();
-            drawArea.reset();
-            drawArea.BuildGnList(50, 50, JDPAtest.getHead());
-	    drawArea.updateCanvasSize();
-            drawArea.c.repaint();
-	    drawArea.validate();	//This is the GOD line fixes everything
-
+           
+            
         }
     }
 

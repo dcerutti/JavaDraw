@@ -102,7 +102,7 @@ public class DrawTree extends ScrollPane {
 	 */
 	public void BuildGnList(int nodeWidth, int nodeHeight, Node head) {
 
-		traverse(head, 80, 60, 80, 60);
+		traverse(head, 100, 60, 100, 60);
 	}
 
 	public void init(){
@@ -303,7 +303,9 @@ public class DrawTree extends ScrollPane {
 	@Override
 	public void paint(Graphics g) {
 
-		for (GraphicNode gN : gnList) {
+
+		for(int i = 0; i < gnList.size(); i++){
+			GraphicNode gN = gnList.get(i);
 			gN.draw(g);
 		}
 

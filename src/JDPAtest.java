@@ -231,7 +231,7 @@ public class JDPAtest {
         }
     }
 
-    public static void getFile(String n) {
+    public static void getFile(String name, String directory) {
 
         /**
          * We ask the user what file they want to use, and run it with all the
@@ -244,9 +244,9 @@ public class JDPAtest {
 
             // this takes the string and chops off the ".java" so we can run the
             // class later
-            String className = n.substring(0, (n.length() - 5));
+            String className = name.substring(0, (name.length() - 5));
 
-            System.out.println("You selected: " + n);
+            System.out.println("You selected: " + name);
             System.out.println("Creating class:" + className);
 
             String origDir = System.getProperty("user.dir");
@@ -256,7 +256,7 @@ public class JDPAtest {
                 "-e",
                 "javac",
                 "-g",
-                n};
+                name};
             String[] run = {
                 "xterm",
                 "-e",

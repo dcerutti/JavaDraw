@@ -191,9 +191,9 @@ public class JavaDrawMain {
 
             if (ans == 0) {
 
-//                JFrame frame = new JFrame("InputDialog");
-//                String name = JOptionPane.showInputDialog(frame,
-//                        "What Java file (a file ending in '.java') would you like to use?");
+                JFrame frame = new JFrame("InputDialog");
+                String name = JOptionPane.showInputDialog(frame,
+                        "What Java file (a file ending in '.java') would you like to use?");
 
                 /**
                  * We use JFile chooser because we don't wwant to mix between "regular"
@@ -201,9 +201,9 @@ public class JavaDrawMain {
                  * that isn't necessarily in the current working directory (i.e., the
                  * directry from where we ran the program
                  */
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Please Select a .java file you would like to use");
-                fileChooser.showDialog(drawArea, "OK");
+//                JFileChooser fileChooser = new JFileChooser();
+//                fileChooser.setDialogTitle("Please Select a .java file you would like to use");
+//                fileChooser.showDialog(drawArea, "OK");
 
 //                System.out.println("File chosen: " + fileChooser.getSelectedFile().getName());
 //                System.out.println("Directory chosen: " + fileChooser.getCurrentDirectory().getAbsolutePath());
@@ -215,7 +215,8 @@ public class JavaDrawMain {
                  * Could have created a new File() to pass them in, but this saves some memory
                  *   (admittedly only a little bit, but might as well save where we can)
                  */
-                JDPAtest.getFile(fileChooser.getSelectedFile().getName(), fileChooser.getCurrentDirectory().getAbsolutePath());
+//                JDPAtest.getFile(fileChooser.getSelectedFile().getName(), fileChooser.getCurrentDirectory().getAbsolutePath());
+                JDPAtest.getFile(name, "");
                 JDPAtest.getVM();
                 drawArea.reset();
                 drawArea.BuildGnList(50, 50, JDPAtest.getHead());

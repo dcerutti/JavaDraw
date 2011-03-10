@@ -54,7 +54,8 @@ public class JDPAtest {
             vm.suspend();
             System.out.println("...Suspended...");
             int i = 0;
-            Node top = new Node(NODETYPE.FUNCTION, "Virtual Machine");
+            Node top = new Node(NODETYPE.FUNCTION);
+            top.type = "VM";
             for (ThreadReference thread : at) {
                if (i < 3) {
                     i++;
@@ -70,6 +71,8 @@ public class JDPAtest {
                 List<StackFrame> sf = thread.frames();
                 for (StackFrame frame : sf) {
 
+                	
+                	
                     if (frame.thisObject() != null) {
                         // Node temp2 = new Node(NODETYPE.OBJECT,
                         // frame.thisObject().referenceType().name());
@@ -83,6 +86,11 @@ public class JDPAtest {
                         System.err.println("No locals in: " + frame);
                         continue;
                     }
+                    
+                    Node sF = new Node(NODETYPE.FUNCTION);
+                    sF.type = frameExtract(frame.toString());
+                    sF.setPurple = true;
+                    functionNode.children.add(sF);
 
                     for (LocalVariable var : lv) {
 
@@ -95,7 +103,7 @@ public class JDPAtest {
                         objectNode.name = var.name();
                         objectNode.value = idExtract(value);
 
-                        functionNode.children.add(objectNode);
+                        sF.children.add(objectNode);
 
                         String id = idExtract(value);
                         
@@ -171,6 +179,12 @@ public class JDPAtest {
 
         return id;
     }
+    
+    static String frameExtract(String frame){
+    	int index = frame.indexOf(" in thread");
+    	frame = frame.substring(0, index);
+    	return frame;
+    }
 
     public static void varTraverse(Value value, Node parent, int tab) {
         if (value instanceof ObjectReference) {
@@ -196,6 +210,7 @@ public class JDPAtest {
                 	}else{
                 		
                 		Node temp = (Node) idVisited.get(id);
+                		temp.nameTwo = field.name();
                 		parent.children.add(temp);
                 		
                 	}

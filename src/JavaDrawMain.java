@@ -44,7 +44,7 @@ public class JavaDrawMain {
             myframe.setVisible(true);
 
 
-            drawArea.BuildGnList(50, 50, BuildSampleTree());
+           
 
             // Make menubar
             MenuBar mb = new MenuBar();
@@ -60,11 +60,7 @@ public class JavaDrawMain {
 
             m2.addActionListener(new PhotoSaver(myframe, drawArea));
 
-            //Make ScrollPane
-
-            // while (true) {
-            // drawArea.repaint(); // Draw it
-            // }
+            drawArea.init();
             drawArea.c.repaint();
 
         } else if (answer == 1) {

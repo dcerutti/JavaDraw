@@ -14,6 +14,9 @@ public class Node {
 	String name = "";
 	String type = "";
 	String value = "";
+	String nameTwo = "";
+	
+	boolean setPurple = false;
 
 	// Graphic Team Use Only
 	boolean visited = false;

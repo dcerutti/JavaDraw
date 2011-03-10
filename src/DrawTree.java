@@ -1,6 +1,7 @@
 import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -74,8 +75,15 @@ public class DrawTree extends ScrollPane {
 		int x = 800;
 		int y = 600;
 		
-		if(furthestLoopX + 50 > x) {
-			x = furthestLoopX + 50;
+		int testX;
+		if(furthestLoopX >= furthestNodeX){
+			testX = furthestLoopX;
+		}else{
+			testX = furthestNodeX;
+		}
+		
+		if(testX + 50 > x) {
+			x = testX + 50;
 		}
 		
 		if(furthestNodeY + 50 > y){
@@ -94,9 +102,18 @@ public class DrawTree extends ScrollPane {
 	 */
 	public void BuildGnList(int nodeWidth, int nodeHeight, Node head) {
 
-		traverse(head, 50, 50, nodeWidth, nodeHeight);
+		traverse(head, 80, 60, 80, 60);
 	}
 
+	public void init(){
+		c.setSize(800, 600);
+		GraphicString gS = new GraphicString();
+		gS.string = "Please Select: File -> DebugProcess";
+		gS.x = 325;
+		gS.y = 295;
+		gnList.add(gS);
+	}
+	
 	/*
 	 * Creates Graphics Nodes from node tree and sets proper x,y cords.
 	 */
@@ -121,7 +138,9 @@ public class DrawTree extends ScrollPane {
 			}
 
 			
-			
+			if(node.setPurple){
+				gF.c = Color.magenta;
+			}
 		
 			gF.name = node.type + "  " +  node.value;
 			
@@ -205,6 +224,14 @@ public class DrawTree extends ScrollPane {
 
 				gnList.add(gLoop);
 				loopList.add(gLoop);
+				
+				GraphicString gS = new GraphicString();
+				gS.x = gLoop.x1 + 50;
+				gS.y = gLoop.y1 - 5;
+				
+				gS.string = node.nameTwo;
+				
+				gnList.add(gS);
 
 			} else {
 

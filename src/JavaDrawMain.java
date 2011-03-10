@@ -6,6 +6,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,11 +30,14 @@ public class JavaDrawMain {
         // Builds a Frame with a Close 'X' Option
         Frame myframe = new Frame("Draw File");
         myframe.setSize(800, 600);
-        myframe.addWindowListener(new FrameCloser());
+
+        
         myframe.addComponentListener(new FrameMovement());
 
         // Makes a Canvas
         DrawTree drawArea = new DrawTree();
+        myframe.addWindowListener(new FrameListener());
+        myframe.addWindowStateListener(new FrameMax(drawArea));
         myframe.add(drawArea, BorderLayout.CENTER);
 
         // Makes that frame visible
@@ -141,14 +145,36 @@ public class JavaDrawMain {
     /*
      * Need this class here so the Frame() can be closed
      */
-    static class FrameCloser extends WindowAdapter {
+    static class FrameListener extends WindowAdapter {
 
+    	
         public void windowClosing(WindowEvent e) // Closes window when called
         {
             System.out.println("Goodbye"); // Prints Goodbye to System
             System.exit(0);
         }
     }
+
+    static class FrameMax implements WindowStateListener {
+    	
+    	DrawTree drawArea;
+    	
+    	FrameMax(DrawTree drawArea){
+    		this.drawArea = drawArea;
+    	}
+
+		@Override
+		public void windowStateChanged(WindowEvent arg0) {
+			
+    		drawArea.updateCanvasSize();
+    		drawArea.repaint();
+    		drawArea.c.repaint();
+    		drawArea.c.validate();
+			
+		}
+    	
+    }
+
 
     static class DebugProcess implements ActionListener {
 

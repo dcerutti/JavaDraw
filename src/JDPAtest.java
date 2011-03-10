@@ -252,7 +252,7 @@ public class JDPAtest {
         System.out.println("Creating class:" + className);
 
         
-        System.setProperty("user.dir", "/home/cory/Desktop");
+        System.setProperty("user.dir", directory);
 
         try {
 
@@ -280,6 +280,7 @@ public class JDPAtest {
              * as one command (or two joined by &&) to compile AND run in debug,
              * it doesn't work. Need two .exec() functions.
              */
+            
             Runtime.getRuntime().exec(compile);
             Runtime.getRuntime().exec(run);
 

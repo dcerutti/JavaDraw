@@ -1,8 +1,9 @@
 import java.io.IOException;
 
 public class InterestingQueue {
+		int data;
         InterestingQueue next = null;
-        int data;
+        
 
         public InterestingQueue(int data)
         {

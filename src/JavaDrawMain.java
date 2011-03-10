@@ -1,3 +1,4 @@
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +11,9 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 
 public class JavaDrawMain {
 
@@ -21,65 +22,45 @@ public class JavaDrawMain {
      */
     public static void main(String[] args) {
 
-        TeamManager tManager = new TeamManager();
-        int answer = tManager.execute();
+        /*
+         * Graphics Team Code Here
+         */
 
-        if (answer == 0) {
-            /*
-             * Graphics Team Code Here
-             */
+        // Builds a Frame with a Close 'X' Option
+        Frame myframe = new Frame("Draw File");
+        myframe.setSize(800, 600);
+        myframe.addWindowListener(new FrameCloser());
+        myframe.addComponentListener(new FrameMovement());
 
-            // Builds a Frame with a Close 'X' Option
-            Frame myframe = new Frame("Draw File");
-            myframe.setSize(800, 600);
-            myframe.addWindowListener(new FrameCloser());
-            myframe.addComponentListener(new FrameMovement());
+        // Makes a Canvas
+        DrawTree drawArea = new DrawTree();
+        myframe.add(drawArea, BorderLayout.CENTER);
 
-            // Makes a Canvas
-            DrawTree drawArea = new DrawTree();
-            myframe.add(drawArea, BorderLayout.CENTER);
-
-            // Makes that frame visible
-            myframe.pack();
-            myframe.setVisible(true);
+        // Makes that frame visible
+        myframe.pack();
+        myframe.setVisible(true);
 
 
-            drawArea.BuildGnList(50, 50, BuildSampleTree());
-
-            // Make menubar
-            MenuBar mb = new MenuBar();
-            myframe.setMenuBar(mb);
-            Menu m = new Menu("File");
-            mb.add(m);
-            MenuItem m2 = new MenuItem("Save Drawing as PNG");
-            MenuItem m3 = new MenuItem("DebugProcess");
-            m3.addActionListener(new DebugProcess(drawArea));
-            m.add(m3);
-            m.add(m2);
 
 
-            m2.addActionListener(new PhotoSaver(myframe, drawArea));
-
-            //Make ScrollPane
-
-            // while (true) {
-            // drawArea.repaint(); // Draw it
-            // }
-            drawArea.c.repaint();
-
-        } else if (answer == 1) {
-            /*
-             * Debug Team Code Here Use this as your main()
-             */
-            JDPAtest.getFile("Interesting.java");
-            JDPAtest.getVM();
+        // Make menubar
+        MenuBar mb = new MenuBar();
+        myframe.setMenuBar(mb);
+        Menu m = new Menu("File");
+        mb.add(m);
+        MenuItem m2 = new MenuItem("Save Drawing as PNG");
+        MenuItem m3 = new MenuItem("DebugProcess");
+        m3.addActionListener(new DebugProcess(drawArea));
+        m.add(m3);
+        m.add(m2);
 
 
-        }
-        else {
-            Node head = BuildSampleTree();
-            PrintBadTree(head, 0); // Prints Sample Tree
-        }
+        m2.addActionListener(new PhotoSaver(myframe, drawArea));
+
+        drawArea.init();
+        drawArea.c.repaint();
+
+
     }
 
     /*
@@ -158,7 +139,7 @@ public class JavaDrawMain {
     }
 
     /*
-     * Button & Window Listeners
+     * Need this class here so the Frame() can be closed
      */
     static class FrameCloser extends WindowAdapter {
 
@@ -180,52 +161,89 @@ public class JavaDrawMain {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            //Creates an input box for user to put in their class name
-            JFrame frame = new JFrame("InputDialog");
-            String name = JOptionPane.showInputDialog(frame,
-                 "What Java file (a file ending in '.java') would you like to use?");
-            JDPAtest.getFile(name);
-            JDPAtest.getVM();
-            drawArea.reset();
-            drawArea.BuildGnList(50, 50, JDPAtest.getHead());
-            drawArea.c.repaint();
+            int ans = JOptionPane.showConfirmDialog(drawArea, "Auto Run Target Program? (Linux Only)");
+
+            if (ans == 0) {
+
+//                JFrame frame = new JFrame("InputDialog");
+//                String name = JOptionPane.showInputDialog(frame,
+//                        "What Java file (a file ending in '.java') would you like to use?");
+
+                /**
+                 * We use JFile chooser because we don't wwant to mix between "regular"
+                 * and javax.swing packages. We're allowing the user to select a file
+                 * that isn't necessarily in the current working directory (i.e., the
+                 * directry from where we ran the program
+                 */
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Please Select a .java file you would like to use");
+                fileChooser.showDialog(drawArea, "OK");
+
+//                System.out.println("File chosen: " + fileChooser.getSelectedFile().getName());
+//                System.out.println("Directory chosen: " + fileChooser.getCurrentDirectory().getAbsolutePath());
+
+                /**
+                 * getName() returns a string of the filename with extension
+                 * getCurrentDirectory().getAbsolutePath() gives us the directory of the file
+                 *   without the selected file on the end. We need this to compile it properly
+                 * Could have created a new File() to pass them in, but this saves some memory
+                 *   (admittedly only a little bit, but might as well save where we can)
+                 */
+                JDPAtest.getFile(fileChooser.getSelectedFile().getName(), fileChooser.getCurrentDirectory().getAbsolutePath());
+                JDPAtest.getVM();
+                drawArea.reset();
+                drawArea.BuildGnList(50, 50, JDPAtest.getHead());
+                drawArea.updateCanvasSize();
+                drawArea.c.repaint();
+                drawArea.validate();	//This is the GOD line fixes everything
+
+            } else if (ans == 1) {
+
+                JOptionPane.showMessageDialog(drawArea, "Hit OK after target program is running.");
+                JDPAtest.getVM();
+                drawArea.reset();
+                drawArea.BuildGnList(50, 50, JDPAtest.getHead());
+                drawArea.updateCanvasSize();
+                drawArea.c.repaint();
+                drawArea.validate();	//This is the GOD line fixes everything
+
+            } else {
+            }
+
 
         }
     }
 
+    //Class is here so that canvas size can be update when user
+    //Changes the window size
+    static class FrameMovement implements ComponentListener {
 
-    	static class FrameMovement implements ComponentListener {
+        DrawTree drawArea = new DrawTree();
 
-		DrawTree drawArea = new DrawTree();
-		@Override
-		public void componentMoved(ComponentEvent move) {
-			// TODO Auto-generated method stub
-			
-		}
+        @Override
+        public void componentMoved(ComponentEvent move) {
+            // TODO Auto-generated method stub
+        }
 
-		@Override
-		public void componentHidden(ComponentEvent move) {
-			// TODO Auto-generated method stub
-			
-		}
+        @Override
+        public void componentHidden(ComponentEvent move) {
+            // TODO Auto-generated method stub
+        }
 
-		@Override
-		public void componentResized(ComponentEvent move) {
-			drawArea.c.repaint();
-			drawArea.s.repaint();
-			drawArea.updateCanvasSize();
-			
-		}
+        //When the window is resized repaint and update everything
+        @Override
+        public void componentResized(ComponentEvent move) {
+            drawArea.c.repaint();
+            drawArea.repaint();
+            drawArea.updateCanvasSize();
 
-		@Override
-		public void componentShown(ComponentEvent move) {
-			// TODO Auto-generated method stub
-			
-		}
+        }
 
-	
-		
-	}
+        @Override
+        public void componentShown(ComponentEvent move) {
+            // TODO Auto-generated method stub
+        }
+    }
 
     /*
      * This function adds and ActionListener on the MenuBar to allow the image
